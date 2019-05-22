@@ -3,6 +3,7 @@ package com.example.medicine_reminder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,6 +39,13 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (savedInstanceState == null){
+            setTitle("MainPage");
+            MainPage main = new MainPage();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment, main).commit();
+        }
     }
 
     @Override
@@ -79,11 +87,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-//            setTitle("First Fragment");
-//            First first = new First();
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.fragment, first).commit();
-
+            setTitle("MainPage");
+            MainPage main = new MainPage();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment, main).commit();
         } else if (id == R.id.nav_mybag) {
 //            setTitle("Second Fragment");
 //            Second second = new Second();
