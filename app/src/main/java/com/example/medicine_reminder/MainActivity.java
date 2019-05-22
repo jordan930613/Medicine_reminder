@@ -3,6 +3,7 @@ package com.example.medicine_reminder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -79,18 +80,25 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+//            setTitle("First Fragment");
+//            First first = new First();
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            fragmentManager.beginTransaction().replace(R.id.fragment, first).commit();
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_mybag) {
+//            setTitle("Second Fragment");
+//            Second second = new Second();
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            fragmentManager.beginTransaction().replace(R.id.fragment, second).commit();
+        } else if (id == R.id.nav_completion) {
 
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.nav_health) {
 
-        } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_setting) {
 
         }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
