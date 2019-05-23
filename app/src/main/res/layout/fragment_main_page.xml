@@ -6,10 +6,10 @@
     tools:context=".MainPage">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="50sp"
-        android:text="MainPage Fragment" />
+        android:id="@+id/lv_mainpage">
+    </ListView>
 
 </FrameLayout>
