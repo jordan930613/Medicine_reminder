@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null){
-            setTitle("MainPage");
+            setTitle("首頁");
             MainPage main = new MainPage();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, main).commit();
@@ -87,22 +87,30 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            setTitle("MainPage");
+            setTitle("首頁");
             MainPage main = new MainPage();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, main).commit();
         } else if (id == R.id.nav_mybag) {
-//            setTitle("Second Fragment");
-//            Second second = new Second();
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.fragment, second).commit();
+            setTitle("我的藥袋");
+            Medicine_package medicine_package = new Medicine_package();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment, medicine_package).commit();
         } else if (id == R.id.nav_completion) {
-
+            setTitle("完成度");
+            FinishpPercentage finishpPercentage = new FinishpPercentage();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment, finishpPercentage).commit();
         } else if (id == R.id.nav_health) {
-
-
+            setTitle("健康度");
+            Healthy healthy = new Healthy();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment, healthy).commit();
         } else if (id == R.id.nav_setting) {
-
+            setTitle("設定");
+            Setting setting = new Setting();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment, setting).commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
