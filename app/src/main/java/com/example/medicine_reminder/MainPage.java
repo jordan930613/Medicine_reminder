@@ -34,26 +34,19 @@ public class MainPage extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        String[] TITLE ={
-                "Bell", "Doraemon", "Doramin", "Doraemon", "Nobita", "Doraemon", "Teacher", "Doraemon", "Shizuka", "Doraemon"
-        };
-        String[] SUBTITLE = {
-                "content", "content", "content", "content", "content", "content", "content", "content", "content", "content"
-        };
-        int[] Ic = {
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-                R.drawable.ic_menu_home,
-        };
+        String[] TIME ={
+                "08:30", "12:30", "16:30", "20:30", "00:30"};
+        String[] NAME = {} ;
+        int[] Ic = {} ;
+        for(int i = 0 ; i<5;i++){
+            NAME[i]= "性愛藥";
+            Ic[i]=R.drawable.ic_check;
+
+
+        }
+
         ListView ls = (ListView)view.findViewById(R.id.lv_mainpage);
-        CustomizeAdapter cs = new CustomizeAdapter(TITLE, SUBTITLE, Ic);
+        CustomizeAdapter cs = new CustomizeAdapter(TIME, NAME, Ic);
         ls.setAdapter(cs);
     }
 }
