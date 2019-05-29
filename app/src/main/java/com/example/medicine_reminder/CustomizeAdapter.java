@@ -41,8 +41,8 @@ public class CustomizeAdapter extends BaseAdapter {
         if(convertView==null){
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_content_main, null);
         }
-        TextView mTitle =(TextView)convertView.findViewById(R.id.mainpage_content_tv1);
-        TextView mContent = (TextView)convertView.findViewById(R.id.mainpage_content_tv2);
+        TextView mTitle =(TextView)convertView.findViewById(R.id.mainpage_tv_time);
+        TextView mContent = (TextView)convertView.findViewById(R.id.mainpage_tv_name);
         ImageView mImg = (ImageView)convertView.findViewById(R.id.mainpage_content_img);
 
         String title_text = (String) getItem(position);
