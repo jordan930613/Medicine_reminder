@@ -17,7 +17,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */

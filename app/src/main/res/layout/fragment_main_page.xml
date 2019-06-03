@@ -21,13 +21,12 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_mainpage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35sp"
-        android:layout_marginBottom="35sp"
+        android:layout_height="0sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"></android.support.v7.widget.RecyclerView>
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
