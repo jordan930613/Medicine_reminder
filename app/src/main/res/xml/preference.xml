@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:title="通知" />
+
+    <SwitchPreference
+        android:title="出門攜藥提醒"
+        android:summary="開啟後會在指定時間發出通知"/>
+
+    <Preference
+        android:title="設定出門時間"/>
+
+    <Preference
+        android:title="關於我們"/>
+
+    <Preference
+        android:title="軟體版本"
+        android:summary="Beta V0.5"/>
+
+
+</PreferenceScreen>

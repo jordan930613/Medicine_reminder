@@ -3,6 +3,7 @@ package com.example.medicine_reminder;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -57,6 +58,7 @@ public class MainPage extends Fragment {
         for(int i =0;i<5;i++){
             mTime.add(TIME[i]);
         }
+
 
         btnAdd = (Button)view.findViewById(R.id.btnadd);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_mainpage);

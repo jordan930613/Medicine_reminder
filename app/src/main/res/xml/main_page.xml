@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:title="名稱"
+        android:summary="藥包名稱"/>
+
+    <Preference
+        android:title="時間"
+        android:summary="XX:XX"/>
+
+    <Preference
+        android:title="剩餘Ｘ次"/>
+
+
+</PreferenceScreen>

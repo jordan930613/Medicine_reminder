@@ -8,7 +8,7 @@
 
     <Button
         android:id="@+id/btnadd"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ADD"
         android:textSize="25sp"
@@ -21,6 +21,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_mainpage"
         android:layout_width="match_parent"
+        android:background="#eeeeeeee"
         android:layout_height="0sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
