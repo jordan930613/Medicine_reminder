@@ -19,24 +19,13 @@ import android.view.Menu;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FloatingActionButton fab;
-
-    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.setVisibility(View.INVISIBLE);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,31 +86,26 @@ public class MainActivity extends AppCompatActivity
             MainPage main = new MainPage();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, main).commit();
-            fab.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_mybag) {
             setTitle("我的藥袋");
             Medicine_package medicine_package = new Medicine_package();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, medicine_package).commit();
-            fab.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_completion) {
             setTitle("完成度");
             FinishpPercentage finishpPercentage = new FinishpPercentage();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, finishpPercentage).commit();
-            fab.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_health) {
             setTitle("健康度");
             Healthy healthy = new Healthy();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, healthy).commit();
-            fab.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_setting) {
             setTitle("設定");
             Setting setting = new Setting();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, setting).commit();
-            fab.setVisibility(View.INVISIBLE);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
