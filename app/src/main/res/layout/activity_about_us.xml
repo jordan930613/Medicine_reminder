@@ -8,38 +8,62 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="250sp"
-        android:layout_height="250sp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="200sp"
+        android:layout_height="200sp"
+        android:layout_margin="50sp"
         android:src="@drawable/toad2"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="30sp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="嗑藥王"
-        android:textSize="30sp"
+        android:text="嗑藥王\nBeta V0.5"
+        android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        android:textColor="#FF000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
+    <View
+        android:id="@+id/line1"
+        android:layout_width="250sp"
+        android:layout_height="1sp"
+        android:layout_margin="20sp"
+        android:background="#FFaaaaaa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="386dp" />
+        android:id="@+id/tv2"
+        android:layout_marginTop="30sp"
+        android:gravity="center"
+        android:text="雲科大APP程式設計課程\n\n開發人員：\n\n周雋倫 B10517022\n李展丞 B10517012"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="250sp"
+        android:layout_height="1sp"
+        android:layout_marginBottom="8dp"
+        android:background="#FFaaaaaa"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv2" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -71,12 +71,14 @@ public class Medicine_package extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = view.findViewById(R.id.med_name);
+                TextView textView1 = view.findViewById(R.id.med_count);
                 int get_name_id = mDBHelper.get_name_id(textView.getText().toString());
                 Intent intent = new Intent(getActivity(), modify_med.class);
                 Toast.makeText(getActivity(), "intent", Toast.LENGTH_SHORT).show();
 
                 intent.putExtra("selected_name_id", get_name_id);
                 intent.putExtra("selected_name", textView.getText().toString());
+                intent.putExtra("selected_count", textView1.getText().toString());
 
                 startActivity(intent);
 //                Cursor cursor = mDBHelper.getReadableDatabase().rawQuery("select name from med_table where name = " + get_name_id + ";", null);

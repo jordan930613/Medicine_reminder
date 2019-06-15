@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -41,6 +42,11 @@ public class NotificationHelper extends ContextWrapper {
         }
 
         return mManager;
+    }
+
+    public void CancelNotification() {
+
+        mManager.cancelAll();
     }
 
     public NotificationCompat.Builder getChannelNotification(String title, String message) {

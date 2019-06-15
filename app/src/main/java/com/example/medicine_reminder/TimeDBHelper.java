@@ -60,6 +60,15 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public int get_time_id(String get_name_id) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT id_time FROM " + TABLE_NAME + " WHERE name_id = '" + get_name_id + "'";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+
+        return Integer.valueOf(data.getString(0));
+    }
+
     public int getMax_time() {
 
         return max_time;

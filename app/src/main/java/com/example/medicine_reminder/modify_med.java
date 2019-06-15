@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,12 +37,14 @@ public class modify_med extends AppCompatActivity {
 
     int get_selected_name_id;
     String get_selected_name;
+    String get_selected_count;
     String get_time;
     String time = "";
     int get_got_it, go_insert_or_update;
     int get_max_time;
     String medname, medcount;
     int name_id;
+    int time_id;
     String fixtime = "";
 
     @Override
@@ -57,6 +60,22 @@ public class modify_med extends AppCompatActivity {
         findViews();
         getSelected();
         showList();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Toast.makeText(getApplicationContext(),"yeeeee",Toast.LENGTH_SHORT).show();
+            medcount = edt_cout.getText().toString();
+            name_id = mDBHelper.get_name_id(edt_name.getText().toString());
+            System.out.println("medcount = " +  medcount);
+            SQLiteDatabase db = mDBHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("med_count", medcount);
+            db.update("med_table", values, "name_id = '" + name_id + "'", null);
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -135,12 +154,17 @@ public class modify_med extends AppCompatActivity {
         if (go_insert_or_update == 1) {
             Toast.makeText(modify_med.this, "Have it", Toast.LENGTH_SHORT).show();
             name_id = mDBHelper.get_name_id(edt_name.getText().toString());
+            time_id = timeDBHelper.get_time_id(Integer.toString(name_id));
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
+            //db.update("time_table", values_time, "id_time = '" + time_id + "'", null);
             db_time.insert("time_table", null, values_time);
+            Toast.makeText(this, "update", Toast.LENGTH_SHORT).show();
+            values.put("med_count", med_count);
+            db.update("med_table", values, "name_id = '" + name_id + "'", null);
 
         }else if (go_insert_or_update == 0) {
-            values.put("name", med_name);
+            //values.put("name", med_name);
             values.put("med_count", med_count);
             db.insert("med_table", null, values);
 
@@ -159,8 +183,10 @@ public class modify_med extends AppCompatActivity {
 
         get_selected_name_id = intent.getIntExtra("selected_name_id", 0);
         get_selected_name = intent.getStringExtra("selected_name");
+        get_selected_count = intent.getStringExtra("selected_count");
 
         edt_name.setText(get_selected_name);
+        edt_cout.setText(get_selected_count);
     }
 
     private void showList() {

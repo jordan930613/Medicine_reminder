@@ -1,8 +1,10 @@
 package com.example.medicine_reminder;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +32,9 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     private List<String> mTime;
     private List<String> mName;
     private Boolean key = true;
+    DBHelper mDBHelper;
+    String getName;
+    String getTime;
 
     private void setContext(Context context){
         this.mContext = context;
@@ -52,12 +57,19 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
             item_tvName = (TextView) itemView.findViewById(R.id.mainpage_tv_name);
             item_btnDel = (Button)itemView.findViewById(R.id.mainpage_btn_del) ;
             setContext(itemView.getContext());
+
+            mDBHelper = new DBHelper(mContext);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(v.getContext(),"Click"+getAdapterPosition(),Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(mContext,MainPageIntent.class);
-                    mContext.startActivity(intent);
+//                    Intent intent = new Intent(mContext,MainPageIntent.class);
+//
+//                    mContext.startActivity(intent);
+                    openOptionDialog(getName);
+//                    int get_med_count = mDBHelper.get_med_count(getName);
+//                    System.out.println("get_med_count = " + get_med_count);
                 }
             });
 
@@ -115,8 +127,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     }
 
     public String[] sendPosition() {
-        String getName;
-        String getTime;
+
         System.out.println("which first = " + 4);
 
         if (mName.isEmpty())
@@ -138,5 +149,51 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     public int getItemCount() {
         return mTime.size();
     }
+
+
+    private void openOptionDialog(String message){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        dialog.setTitle("確定吃藥了嗎？");
+        dialog.setMessage("確定已經吃了 " + message + " 這包藥嗎？");
+
+        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = mName.get(0);
+                System.out.println("getname = " + name);
+                mDBHelper.decreaseCount(mDBHelper.get_name_id(name));
+                int get_med_count = mDBHelper.get_med_count(name);
+                System.out.println("get_med_count = " + get_med_count);
+                if (get_med_count == 0) {
+                    reminderDialog(name);
+                }
+            }
+        });
+
+        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void reminderDialog(String message){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        dialog.setTitle("藥包沒有嘍！");
+        dialog.setMessage("藥包 " + message + "已經沒有嘍！");
+
+        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        dialog.show();
+    }
+
 
 }

@@ -14,6 +14,7 @@ public class MyPreferenceFragment extends PreferenceFragment
 {
     private Preference notification, about_us;
     private Context mContext;
+    NotificationHelper notificationHelper;
     @Override
     public void onCreate(final Bundle savedInstanceState)
     {
@@ -23,6 +24,7 @@ public class MyPreferenceFragment extends PreferenceFragment
         notification = findPreference("notification");
         about_us = findPreference("about");
         final SharedPreferences pref = mContext.getSharedPreferences("preference", MODE_PRIVATE);
+        notificationHelper = new NotificationHelper(mContext);
 
         notification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
@@ -33,6 +35,7 @@ public class MyPreferenceFragment extends PreferenceFragment
                     pref.edit().putInt("notification",1).commit();
                 }else {
                     pref.edit().putInt("notification",0).commit();
+                    notificationHelper.CancelNotification();
                 }
 //                Toast.makeText(mContext,String.format("Preference的值為%s", newValue), Toast.LENGTH_SHORT).show();
                 String lloogg = Integer.toString(pref.getInt("notification", -1));

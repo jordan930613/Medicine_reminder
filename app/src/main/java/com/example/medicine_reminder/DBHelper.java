@@ -1,5 +1,6 @@
 package com.example.medicine_reminder;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -84,6 +85,35 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return Integer.valueOf(data.getString(0));
     }
+
+    public int get_med_count(String get_name) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT med_count FROM " + TABLE_NAME + " WHERE name = '" + get_name + "'";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+
+        return Integer.valueOf(data.getString(0));
+    }
+
+    public Cursor decreaseCount(int get_id){
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT med_count FROM " + TABLE_NAME + " WHERE name_id = " + get_id;
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+
+        int count = Integer.valueOf(data.getString(0));
+        count -= 1;
+
+        ContentValues values = new ContentValues();
+        values.put("med_count", count);
+
+        //db.insert("med_table", null, values);
+        db.update("med_table", values, "name_id = '" + get_id + "'", null);
+
+
+        return data;
+    }
+
 
     public Cursor getname(String getid) {
         SQLiteDatabase db  = this.getWritableDatabase();
