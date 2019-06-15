@@ -181,7 +181,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         dialog.show();
     }
 
-    private void reminderDialog(String message){
+    private void reminderDialog(final String message){
         Log.i("ssss", "reminderDialog: "+message);
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
         dialog.setTitle("藥包沒有嘍！");
@@ -190,11 +190,11 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = mName.get(0);
-                int get_name_id = mDBHelper.get_name_id(name);
+                //String name = mName.get(0);
+                int get_name_id = mDBHelper.get_name_id(message);
 
                 timeDBHelper.deletezerobag(get_name_id);
-                mDBHelper.deletezerobag(mDBHelper.get_name_id(name));
+                mDBHelper.deletezerobag(mDBHelper.get_name_id(message));
             }
         });
 

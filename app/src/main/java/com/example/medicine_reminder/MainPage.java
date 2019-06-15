@@ -98,7 +98,11 @@ public class MainPage extends Fragment {
                 }
 
             } else if (hour > Integer.parseInt(splited[0])) {
-
+                mTime.add(sort.getString(0));
+                String getid = sort.getString(1);
+                Cursor data = mDBHelper.getname(getid);
+                data.moveToFirst();
+                mName.add(data.getString(0));
             }
 
             sort.moveToNext();
@@ -151,6 +155,7 @@ public class MainPage extends Fragment {
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
         Intent intent = new Intent(getActivity(), Notification_reciever.class);
+        //intent.putExtra("channel", )
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
