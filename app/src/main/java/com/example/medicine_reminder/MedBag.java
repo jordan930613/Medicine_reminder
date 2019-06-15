@@ -52,7 +52,6 @@ public class MedBag extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intent_med_bag);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle("我的藥袋");
