@@ -47,7 +47,6 @@ public class modify_med extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intent_modify_med);
-
         setTitle("修改藥袋");
 
         mDBHelper = new DBHelper(this);
