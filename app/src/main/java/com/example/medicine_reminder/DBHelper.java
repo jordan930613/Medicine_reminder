@@ -133,4 +133,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE);
         super.onOpen(db);
     }
+
+    public void deletezerobag(int name_id) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE name_id = '" + name_id + "'";
+        db.execSQL(query);
+    }
 }

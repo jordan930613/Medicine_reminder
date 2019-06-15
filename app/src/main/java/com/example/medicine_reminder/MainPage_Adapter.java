@@ -33,6 +33,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     private List<String> mName;
     private Boolean key = true;
     DBHelper mDBHelper;
+    TimeDBHelper timeDBHelper;
     String getName;
     String getTime;
 
@@ -59,6 +60,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
             setContext(itemView.getContext());
 
             mDBHelper = new DBHelper(mContext);
+            timeDBHelper = new TimeDBHelper(mContext);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,7 +69,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
 //                    Intent intent = new Intent(mContext,MainPageIntent.class);
 //
 //                    mContext.startActivity(intent);
-                    openOptionDialog(getName);
+                    openOptionDialog(mName.get(0));
 //                    int get_med_count = mDBHelper.get_med_count(getName);
 //                    System.out.println("get_med_count = " + get_med_count);
                 }
@@ -160,13 +162,14 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String name = mName.get(0);
-                System.out.println("getname = " + name);
                 mDBHelper.decreaseCount(mDBHelper.get_name_id(name));
                 int get_med_count = mDBHelper.get_med_count(name);
                 System.out.println("get_med_count = " + get_med_count);
                 if (get_med_count == 0) {
+                    System.out.println("getname = " + name);
                     reminderDialog(name);
                 }
+                removeItem(0);
             }
         });
 
@@ -181,6 +184,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     }
 
     private void reminderDialog(String message){
+        Log.i("ssss", "reminderDialog: "+message);
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
         dialog.setTitle("藥包沒有嘍！");
         dialog.setMessage("藥包 " + message + "已經沒有嘍！");
@@ -188,7 +192,11 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String name = mName.get(0);
+                int get_name_id = mDBHelper.get_name_id(name);
 
+                timeDBHelper.deletezerobag(get_name_id);
+                mDBHelper.deletezerobag(mDBHelper.get_name_id(name));
             }
         });
 
