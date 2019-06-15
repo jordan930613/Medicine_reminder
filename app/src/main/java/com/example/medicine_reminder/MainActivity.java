@@ -1,6 +1,7 @@
 package com.example.medicine_reminder;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -23,6 +24,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SharedPreferences pref = getSharedPreferences("preference", MODE_PRIVATE);
+        if(pref.getInt("notification", -1)==-1){
+            pref.edit().putInt("notification",1).commit();
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
