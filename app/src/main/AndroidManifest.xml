@@ -9,10 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".modify_med" />
+        <activity android:name=".AboutUs"
+            android:parentActivityName=".Setting"/>
         <activity
-            android:name=".MedBag"
+            android:name=".Setting"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".modify_med" />
+        <activity android:name=".MedBag"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

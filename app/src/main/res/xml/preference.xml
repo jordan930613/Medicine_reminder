@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:title="通知" />
-
+    <PreferenceCategory
+        android:title="應用程式設定">
     <SwitchPreference
-        android:title="出門攜藥提醒"
-        android:summary="開啟後會在指定時間發出通知"/>
+        android:title="通知"
+        android:key="notification"
+        android:defaultValue="true"/>
 
-    <Preference
-        android:title="設定出門時間"/>
+    </PreferenceCategory>
 
-    <Preference
-        android:title="關於我們"/>
+    <PreferenceCategory
+        android:title="關於">
 
-    <Preference
-        android:title="軟體版本"
-        android:summary="Beta V0.5"/>
+        <Preference
+            android:key="about"
+            android:title="關於我們"/>
+
+        <Preference
+            android:title="軟體版本"
+            android:summary="Beta V 0.5"/>
+
+    </PreferenceCategory>
+
 
 
 </PreferenceScreen>
