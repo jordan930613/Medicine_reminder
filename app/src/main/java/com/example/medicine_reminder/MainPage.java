@@ -34,7 +34,6 @@ public class MainPage extends Fragment {
     private FragmentActivity c = getActivity();
     private RecyclerView recyclerView;
     private MainPage_Adapter adapter;
-    private Button btnAdd;
     private ArrayList<String> mTime = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
     Notification_reciever notification_reciever;
@@ -104,8 +103,6 @@ public class MainPage extends Fragment {
 
             sort.moveToNext();
         }
-
-        btnAdd = (Button)view.findViewById(R.id.btnadd);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_mainpage);
         // 設置RecyclerView為列表型態
         recyclerView.setLayoutManager(new LinearLayoutManager(c));
@@ -120,13 +117,13 @@ public class MainPage extends Fragment {
         // 設置adapter給recycler_view
         recyclerView.setAdapter(adapter);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 新增一個項目
-                adapter.addItem("10:30", "安安藥");
-            }
-        });
+//        btnAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // 新增一個項目
+//                adapter.addItem("10:30", "安安藥");
+//            }
+//        });
     }
 
     public void setNotification() {

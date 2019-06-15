@@ -49,14 +49,12 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
 
         private ImageView item_image;
         private TextView item_tvTime, item_tvName;
-        private Button item_btnDel;
 
         ViewHolder(final View itemView) {
             super(itemView);
-            item_image = (ImageView) itemView.findViewById(R.id.mainpage_content_img);
+//            item_image = (ImageView) itemView.findViewById(R.id.mainpage_content_img);
             item_tvTime = (TextView) itemView.findViewById(R.id.mainpage_tv_time);
             item_tvName = (TextView) itemView.findViewById(R.id.mainpage_tv_name);
-            item_btnDel = (Button)itemView.findViewById(R.id.mainpage_btn_del) ;
             setContext(itemView.getContext());
 
             mDBHelper = new DBHelper(mContext);
@@ -75,15 +73,15 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
                 }
             });
 
-            item_btnDel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(getAdapterPosition()==-1)
-                        return;
-                    // 移除項目，getAdapterPosition為點擊的項目位置
-                    removeItem(getAdapterPosition());
-                }
-            });
+//            item_btnDel.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(getAdapterPosition()==-1)
+//                        return;
+//                    // 移除項目，getAdapterPosition為點擊的項目位置
+//                    removeItem(getAdapterPosition());
+//                }
+//            });
         }
     }
     Runnable runnable = new Runnable() {
