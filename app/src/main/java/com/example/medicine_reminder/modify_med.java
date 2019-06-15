@@ -42,6 +42,7 @@ public class modify_med extends AppCompatActivity {
     int get_max_time;
     String medname, medcount;
     int name_id;
+    String fixtime = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,14 @@ public class modify_med extends AppCompatActivity {
                 new TimePickerDialog(modify_med.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        time = hourOfDay + " : " + minute;
+                        if (hourOfDay < 10) {
+                            String gettime = Integer.toString(hourOfDay);
+                            String fix = "0";
+                            fixtime = fix + gettime;
+                        }else {
+                            fixtime = Integer.toString(hourOfDay);
+                        }
+                        time = fixtime + " : " + minute;
                         String get_name = edt_name.getText().toString();
                         System.out.println("get_name = " + get_name);
                         Cursor cursor = mDBHelper.checkName(get_name);
@@ -112,7 +120,7 @@ public class modify_med extends AppCompatActivity {
 
     private void setData() {
         medname = edt_name.getText().toString();
-        medcount = "0";
+        medcount = edt_cout.getText().toString();
 
         addData(medname, medcount, time);
     }

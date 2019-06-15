@@ -1,5 +1,7 @@
 package com.example.medicine_reminder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -17,7 +19,10 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.ViewHolder> {
 
@@ -63,8 +68,6 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
                         return;
                     // 移除項目，getAdapterPosition為點擊的項目位置
                     removeItem(getAdapterPosition());
-
-
                 }
             });
         }
@@ -109,6 +112,26 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         mName.remove(position);
 
         notifyItemRemoved(position);
+    }
+
+    public String[] sendPosition() {
+        String getName;
+        String getTime;
+        System.out.println("which first = " + 4);
+
+        if (mName.isEmpty())
+            getName = "testing";
+        else
+            getName = mName.get(0);
+
+        if (mTime.isEmpty())
+            getTime = "11 : 10";
+        else
+            getTime = mTime.get(0);
+
+        String send[] = {getName, getTime};
+
+        return send;
     }
 
     @Override

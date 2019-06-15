@@ -85,6 +85,14 @@ public class DBHelper extends SQLiteOpenHelper {
         return Integer.valueOf(data.getString(0));
     }
 
+    public Cursor getname(String getid) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT name FROM " + TABLE_NAME + " WHERE name_id = " + getid;
+        Cursor data = db.rawQuery(query, null);
+
+        return data;
+    }
+
     @Override
     public void onOpen(SQLiteDatabase db) {
         String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +

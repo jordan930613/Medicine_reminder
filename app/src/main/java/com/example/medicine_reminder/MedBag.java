@@ -33,11 +33,12 @@ import java.util.Calendar;
 
 public class MedBag extends AppCompatActivity {
     ListView listView;
-    EditText med_name_edt;
+    EditText med_name_edt, med_count_edt;
     Button btn;
     Calendar calendar;
 
     String time = "";
+    String fixtime = "";
     String medname, medcount;
     static final String[] FROM = new String[] {"name", "med_count"};
     int get_got_it, go_insert_or_update;
@@ -52,6 +53,8 @@ public class MedBag extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intent_med_bag);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         setTitle("我的藥袋");
 
         mDBHelper = new DBHelper(this);
@@ -65,6 +68,7 @@ public class MedBag extends AppCompatActivity {
     private void findViews() {
         listView = findViewById(R.id.time_set);
         med_name_edt = findViewById(R.id.set_med);
+        med_count_edt = findViewById(R.id.set_count);
         btn = findViewById(R.id.med_btn);
 
         btn.setOnClickListener(new Button.OnClickListener() {
@@ -79,7 +83,14 @@ public class MedBag extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        time = hourOfDay + " : " + minute;
+                        if (hourOfDay < 10) {
+                            String gettime = Integer.toString(hourOfDay);
+                            String fix = "0";
+                            fixtime = fix + gettime;
+                        }else {
+                            fixtime = Integer.toString(hourOfDay);
+                        }
+                        time = fixtime + " : " + minute;
                         String get_name = med_name_edt.getText().toString();
                         Cursor cursor = mDBHelper.checkName(get_name);
                         get_got_it = mDBHelper.getGot_it();
@@ -110,7 +121,7 @@ public class MedBag extends AppCompatActivity {
 
     private void setData() {
         medname = med_name_edt.getText().toString();
-        medcount = "0";
+        medcount = med_count_edt.getText().toString();
 
         addData(medname, medcount, time);
         setNotification(time);
@@ -162,23 +173,23 @@ public class MedBag extends AppCompatActivity {
     }
 
     private void setNotification(String gettime) {
-        String[] settime = gettime.split(" : ");
-
-        String hour = settime[0];
-        String min = settime[1];
+//        String[] settime = gettime.split(" : ");
+//
+//        String hour = settime[0];
+//        String min = settime[1];
 
         //Calendar calendar = Calendar.getInstance();
 
 //        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
 //        calendar.set(Calendar.MINUTE, Integer.parseInt(min));
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        Intent intent = new Intent(this, Notification_reciever.class);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//        Intent intent = new Intent(this, Notification_reciever.class);
+//
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
     }
 

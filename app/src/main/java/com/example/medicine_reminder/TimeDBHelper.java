@@ -65,6 +65,14 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         return max_time;
     }
 
+    public Cursor sort() {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT datetime,name_id FROM " + TABLE_NAME + " ORDER BY datetime ASC ";
+        Cursor data = db.rawQuery(query, null);
+
+        return data;
+    }
+
     public void deleteTime(String get_datetime, int get_name_id){
         SQLiteDatabase db  = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE datetime = '" + get_datetime + "'" + " AND name_id = '" + get_name_id + "'");
