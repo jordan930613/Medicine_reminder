@@ -16,7 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // 建構子，在一般的應用都不需要修改
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 5);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override

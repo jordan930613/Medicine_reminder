@@ -62,6 +62,7 @@ public class MainPage extends Fragment {
 
         mDBHelper = new DBHelper(getActivity());
         timeDBHelper = new TimeDBHelper(getActivity());
+        SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
 
         Cursor sort = timeDBHelper.sort();
         sort.moveToFirst();

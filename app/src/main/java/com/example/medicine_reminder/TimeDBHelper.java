@@ -19,7 +19,7 @@ public class TimeDBHelper extends SQLiteOpenHelper {
     int max_time = 0;
 
     public TimeDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 5);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
@@ -40,6 +40,7 @@ public class TimeDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 刪除原有的表格
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+SQLiteDAO.TABLE_NAME);
 
         // 呼叫onCreate建立新版的表格
 
