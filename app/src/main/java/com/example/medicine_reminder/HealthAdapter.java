@@ -24,17 +24,19 @@ public class HealthAdapter extends RecyclerView.Adapter<HealthAdapter.ViewHolder
     private List<Integer> mBloodsugar;
     private List<Integer> mWeight;
     private List<String> mDate;
+    private List<Long> mID;
 
     private void setContext(Context context){
         this.mContext = context;
     }
-    HealthAdapter(List<Integer> sys, List<Integer> dia, List<Integer> pul, List<Integer> bloodsugar, List<Integer> weight, List<String> date){
+    HealthAdapter(List<Integer> sys, List<Integer> dia, List<Integer> pul, List<Integer> bloodsugar, List<Integer> weight, List<String> date, List<Long> id){
         mSys = sys;
         mDia = dia;
         mPul = pul;
         mBloodsugar = bloodsugar;
         mWeight = weight;
         mDate = date;
+        mID = id;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,7 +49,7 @@ public class HealthAdapter extends RecyclerView.Adapter<HealthAdapter.ViewHolder
             img = itemView.findViewById(R.id.health_img);
             item_Sys = itemView.findViewById(R.id.list_sys);
             item_Dia = itemView.findViewById(R.id.list_dia);
-            item_Pul = itemView.findViewById(R.id.list_date);
+            item_Pul = itemView.findViewById(R.id.list_pul);
             item_sugar = itemView.findViewById(R.id.list_sugar);
             item_weight = itemView.findViewById(R.id.list_weight);
             item_date = itemView.findViewById(R.id.list_date);
@@ -59,7 +61,7 @@ public class HealthAdapter extends RecyclerView.Adapter<HealthAdapter.ViewHolder
                     Toast.makeText(v.getContext(),"Click"+getAdapterPosition(),Toast.LENGTH_SHORT).show();
                     Bundle bundle = new Bundle();
                     Intent intent = new Intent(mContext,HealthIntent.class);
-                    bundle.putInt("ID", getAdapterPosition());
+                    bundle.putLong("ID", mID.get(getAdapterPosition()));
                     intent.putExtras(bundle);
                     mContext.startActivity(intent);
                 }
@@ -78,22 +80,46 @@ public class HealthAdapter extends RecyclerView.Adapter<HealthAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull HealthAdapter.ViewHolder holder, int position) {
         // 設置txtItem要顯示的內容
-        holder.item_Sys.setText("收縮壓 | " + mSys.get(position) + " mmHg");
-        holder.item_Dia.setText("舒張壓 | " + mDia.get(position) + " mmHg");
-        holder.item_Pul.setText("心率 | " + mPul.get(position) + " 次/分");
-        holder.item_sugar.setText("血糖 | " + mBloodsugar.get(position) + " mg/dL");
-        holder.item_weight.setText("體重 | " + mWeight.get(position) + " kg");
-        holder.item_date.setText(mDate.get(position));
-//        holder.img.setImageResource();
+        if(mSys.get(position)==0)
+            holder.item_Sys.setText("收縮壓 | " + " 未測量");
+        else
+            holder.item_Sys.setText("收縮壓 | " + mSys.get(position) + " mmHg");
+        if(mDia.get(position)==0)
+            holder.item_Dia.setText("舒張壓 | " + " 未測量");
+        else
+            holder.item_Dia.setText("舒張壓 | " + mDia.get(position) + " mmHg");
+        if (mPul.get(position)==0)
+            holder.item_Pul.setText("心率 | " + " 未測量");
+        else
+            holder.item_Pul.setText("心率 | " + mPul.get(position) + " 次/分");
+        if(mBloodsugar.get(position)==0)
+            holder.item_sugar.setText("血糖 | " + " 未測量");
+        else
+            holder.item_sugar.setText("血糖 | " + mBloodsugar.get(position) + " mg/dL");
+
+        if(mWeight.get(position)==0)
+            holder.item_weight.setText("體重 | " + " 未測量");
+        else
+            holder.item_weight.setText("體重 | " + mWeight.get(position) + " kg");
+
+        holder.item_date.setText("紀錄時間  "+ mDate.get(position));
+
+        if(mSys.get(position)>140 || mDia.get(position)>90 || mPul.get(position)>100 || mBloodsugar.get(position)>150){
+            holder.img.setImageResource(R.drawable.ic_mood_bad);
+        }else {
+            holder.img.setImageResource(R.drawable.ic_mood);
+        }
+
     }
     // 新增項目
-    public void addItem(int sys, int dia, int pul, int bloodsugar, int weight, String date) {
+    public void addItem(int sys, int dia, int pul, int bloodsugar, int weight, String date, long id) {
         mSys.add(0, sys);
         mDia.add(0, dia);
         mPul.add(0, pul);
         mBloodsugar.add(0, bloodsugar);
         mWeight.add(0, weight);
         mDate.add(0, date);
+        mID.add(0,id);
 
         notifyItemInserted(0);
     }
@@ -107,6 +133,7 @@ public class HealthAdapter extends RecyclerView.Adapter<HealthAdapter.ViewHolder
         mBloodsugar.remove(position);
         mWeight.remove(position);
         mDate.remove(position);
+        mID.remove(position);
 
         notifyItemRemoved(position);
     }

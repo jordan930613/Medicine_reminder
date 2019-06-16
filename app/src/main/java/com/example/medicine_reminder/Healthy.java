@@ -25,13 +25,8 @@ public class Healthy extends Fragment {
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
     private HealthAdapter adapter;
-    private ArrayList<Integer> mSys = new ArrayList<>();
-    private ArrayList<Integer> mDia = new ArrayList<>();
-    private ArrayList<Integer> mPul = new ArrayList<>();
-    private ArrayList<Integer> mSugar = new ArrayList<>();
-    private ArrayList<Integer> mWeight = new ArrayList<>();
-    private ArrayList<String> mDate = new ArrayList<>();
     private SQLiteDAO sqLiteDAO;
+    private Item item;
 
     public Healthy() {
         // Required empty public constructor
@@ -48,9 +43,10 @@ public class Healthy extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        recyclerView = view.findViewById(R.id.recycler_view_health);
         fab = view.findViewById(R.id.healthadd);
+        recyclerView = view.findViewById(R.id.recycler_view_health);
         sqLiteDAO = new SQLiteDAO(getActivity());
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,15 +62,22 @@ public class Healthy extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Item item;
+         ArrayList<Integer> mSys = new ArrayList<>();
+         ArrayList<Integer> mDia = new ArrayList<>();
+         ArrayList<Integer> mPul = new ArrayList<>();
+         ArrayList<Integer> mSugar = new ArrayList<>();
+         ArrayList<Integer> mWeight = new ArrayList<>();
+         ArrayList<String> mDate = new ArrayList<>();
+         ArrayList<Long> mID = new ArrayList<>();
         for (int i = 1; i <= sqLiteDAO.getCount() ; i++) {
             item = sqLiteDAO.get(i);
-                mSys.add(item.getSys());
-                mDia.add(item.getDia());
-                mPul.add(item.getPUL());
-                mSugar.add(item.getBloodsugar());
-                mWeight.add(item.getWeight());
-                mDate.add(item.getLocaleDatetime());
+            mSys.add(item.getSys());
+            mDia.add(item.getDia());
+            mPul.add(item.getPUL());
+            mSugar.add(item.getBloodsugar());
+            mWeight.add(item.getWeight());
+            mDate.add(item.getLocaleDatetime());
+            mID.add(item.getId());
         }
         // 設置RecyclerView為列表型態
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -82,11 +85,9 @@ public class Healthy extends Fragment {
         //recyclerView.addItemDecoration(new DividerItemDecoration(c, DividerItemDecoration.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         // 將資料交給adapter
-        adapter = new HealthAdapter(mSys, mDia, mPul, mSugar,mWeight,mDate);
+        adapter = new HealthAdapter(mSys, mDia, mPul, mSugar,mWeight,mDate,mID);
         // 設置adapter給recycler_view
         recyclerView.setAdapter(adapter);
-
-        adapter.addItem(150,92,110,120,61, "2019-06-16 16:27");
     }
 
 }
