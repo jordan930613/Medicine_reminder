@@ -98,11 +98,7 @@ public class MainPage extends Fragment {
                 }
 
             } else if (hour > Integer.parseInt(splited[0])) {
-                mTime.add(sort.getString(0));
-                String getid = sort.getString(1);
-                Cursor data = mDBHelper.getname(getid);
-                data.moveToFirst();
-                mName.add(data.getString(0));
+
             }
 
             sort.moveToNext();
