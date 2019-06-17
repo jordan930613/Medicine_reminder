@@ -39,8 +39,8 @@ public class MainPage extends Fragment {
     private MainPage_Adapter adapter;
     private ArrayList<String> mTime = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
-    private ArrayList<Boolean> mEat = new ArrayList<>();
-    private ArrayList<Boolean> mPass = new ArrayList<>();
+    //private ArrayList<Boolean> mEat = new ArrayList<>();
+    private ArrayList<Integer> mPass = new ArrayList<>();
     Notification_reciever notification_reciever;
     String getName[];
     String sendname = "";
@@ -52,6 +52,75 @@ public class MainPage extends Fragment {
 
     public MainPage() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RecyclerView recyclerView;
+        MainPage_Adapter adapter;
+        ArrayList<String> mTime = new ArrayList<>();
+        ArrayList<String> mName = new ArrayList<>();
+        //private ArrayList<Boolean> mEat = new ArrayList<>();
+        ArrayList<Integer> mPass = new ArrayList<>();
+
+        Calendar compare_time = Calendar.getInstance();
+        int hour = compare_time.get(Calendar.HOUR_OF_DAY);
+        int min = compare_time.get(Calendar.MINUTE);
+
+        Cursor sort = timeDBHelper.sort();
+        sort.moveToFirst();
+
+        while (!sort.isAfterLast()) {
+            String splited[] = sort.getString(0).split(" : ");
+            String getid = sort.getString(1);
+            String gettime = sort.getString(0);
+
+            if (hour > Integer.parseInt(splited[0])) {
+                int getNameId = Integer.parseInt(getid);
+                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
+                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+                ContentValues values_time = new ContentValues();
+                values_time.put("dead", 1);
+                System.out.println("dead dead");
+                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+
+            } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1])) {
+                int getNameId = Integer.parseInt(getid);
+                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
+                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+                ContentValues values_time = new ContentValues();
+                values_time.put("dead", 1);
+                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+            }
+
+            Cursor eat = timeDBHelper.checkEat(Integer.parseInt(getid), gettime);
+
+            if (Integer.parseInt(eat.getString(0)) == 0){
+                mTime.add(sort.getString(0));
+                mPass.add(Integer.parseInt(sort.getString(2)));
+                System.out.println("Booooooooo" + Boolean.parseBoolean(sort.getString(2)));
+                System.out.println("sort = " + sort.getString(2));
+                Cursor data = mDBHelper.getname(getid);
+                data.moveToFirst();
+                mName.add(data.getString(0));
+            }
+            sort.moveToNext();
+        }
+
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_mainpage);
+        // 設置RecyclerView為列表型態
+        recyclerView.setLayoutManager(new LinearLayoutManager(c));
+        // 設置格線
+        //recyclerView.addItemDecoration(new DividerItemDecoration(c, DividerItemDecoration.VERTICAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        // 將資料交給adapter
+        adapter = new MainPage_Adapter(mTime, mName, mPass);
+        //設定notification
+        //setNotification();
+
+        // 設置adapter給recycler_view
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -83,11 +152,16 @@ public class MainPage extends Fragment {
 
             String getid = sort.getString(1);
             String gettime = sort.getString(0);
+
+
+
             Cursor eat = timeDBHelper.checkEat(Integer.parseInt(getid), gettime);
             //沒吃就會顯示
             if (Integer.parseInt(eat.getString(0)) == 0){
                 mTime.add(sort.getString(0));
-                mPass.add(Boolean.parseBoolean(sort.getString(2)));
+                mPass.add(Integer.parseInt(sort.getString(2)));
+                System.out.println("Booooooooo" + Boolean.parseBoolean(sort.getString(2)));
+                System.out.println("sort = " + sort.getString(2));
                 Cursor data = mDBHelper.getname(getid);
                 data.moveToFirst();
                 mName.add(data.getString(0));
@@ -103,49 +177,43 @@ public class MainPage extends Fragment {
 //            mEat.add(false); //注入與Time同數量True
 //            mPass.add(false);
 
-            if (hour > Integer.parseInt(splited[0])) {
-                int getNameId = Integer.parseInt(getid);
-                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
-                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
-                ContentValues values_time = new ContentValues();
-                values_time.put("dead", 1);
-                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+//            if (hour > Integer.parseInt(splited[0])) {
+//                int getNameId = Integer.parseInt(getid);
+//                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
+//                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+//                ContentValues values_time = new ContentValues();
+//                values_time.put("dead", 1);
+//                System.out.println("dead dead");
+//                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+//
+//            } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1])) {
+//                int getNameId = Integer.parseInt(getid);
+//                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
+//                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+//                ContentValues values_time = new ContentValues();
+//                values_time.put("dead", 1);
+//                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+//            }
 
-            } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1])) {
-                int getNameId = Integer.parseInt(getid);
-                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
-                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
-                ContentValues values_time = new ContentValues();
-                values_time.put("dead", 1);
-                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
-            }
+
             sort.moveToNext();
         }
 
         setNotification(countEat);
 
-//        int count =timeDBHelper.getGet_datacount();
-//        countEat = 0;
+//        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_mainpage);
+//        // 設置RecyclerView為列表型態
+//        recyclerView.setLayoutManager(new LinearLayoutManager(c));
+//        // 設置格線
+//        //recyclerView.addItemDecoration(new DividerItemDecoration(c, DividerItemDecoration.VERTICAL));
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        // 將資料交給adapter
+//        adapter = new MainPage_Adapter(mTime, mName, mPass);
+//        //設定notification
+//        //setNotification();
 //
-//        for (int j = 0; j < count; j++){
-//            Log.v("J = ", j+"");
-//            if (mEat.get(j) == true)
-//                countEat++;
-//        }
-
-        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_mainpage);
-        // 設置RecyclerView為列表型態
-        recyclerView.setLayoutManager(new LinearLayoutManager(c));
-        // 設置格線
-        //recyclerView.addItemDecoration(new DividerItemDecoration(c, DividerItemDecoration.VERTICAL));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        // 將資料交給adapter
-        adapter = new MainPage_Adapter(mTime, mName, mEat, mPass);
-        //設定notification
-        //setNotification();
-
-        // 設置adapter給recycler_view
-        recyclerView.setAdapter(adapter);
+//        // 設置adapter給recycler_view
+//        recyclerView.setAdapter(adapter);
     }
 
     public void setNotification(int count_Eat) {
@@ -181,8 +249,7 @@ public class MainPage extends Fragment {
     }
 
     public String sendName() {
-        adapter = new MainPage_Adapter(mTime, mName, mEat, mPass
-        );
+        adapter = new MainPage_Adapter(mTime, mName, mPass);
         getName = adapter.sendPosition(countEat);
 
         sendname = getName[0];

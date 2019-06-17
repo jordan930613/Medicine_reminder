@@ -37,7 +37,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     private List<String> mTime;
     private List<String> mName;
     private List<Boolean> mEat;
-    private List<Boolean> mPass;
+    private List<Integer> mPass;
     private Boolean key = true;
     DBHelper mDBHelper;
     TimeDBHelper timeDBHelper;
@@ -45,12 +45,12 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     private void setContext(Context context){
         this.mContext = context;
     }
-    MainPage_Adapter(List<String> time, List<String> name, List<Boolean> eat, List<Boolean> pass){
+    MainPage_Adapter(List<String> time, List<String> name, List<Integer> pass){
         mTime = time;
         mName = name;
-        mEat = eat;
         mPass = pass;
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -104,17 +104,21 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
 //
 //        while (!sort.isAfterLast()) {
 //            String splited[] = sort.getString(0).split(" : ");
+//            String getid = sort.getString(1);
+//            String gettime = sort.getString(0);
+//
 //            if (hour > Integer.parseInt(splited[0])) {
-//                int getNameId = mDBHelper.get_name_id(sort.getString(1));
-//                int getTimeId = timeDBHelper.get_time_id(getNameId, sort.getString(0));
+//                int getNameId = Integer.parseInt(getid);
+//                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
 //                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
 //                ContentValues values_time = new ContentValues();
 //                values_time.put("dead", 1);
+//                System.out.println("dead dead");
 //                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
 //
 //            } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1])) {
-//                int getNameId = mDBHelper.get_name_id(sort.getString(1));
-//                int getTimeId = timeDBHelper.get_time_id(getNameId, sort.getString(0));
+//                int getNameId = Integer.parseInt(getid);
+//                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
 //                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
 //                ContentValues values_time = new ContentValues();
 //                values_time.put("dead", 1);
@@ -123,7 +127,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
 //            sort.moveToNext();
 //        }
 
-        if(mPass.get(position)){
+        if(mPass.get(position) == 1){
             holder.titleColor.setBackgroundColor(Color.parseColor("#cc0000"));
             holder.item_tvTime.setTextColor(Color.parseColor("#cc0000"));
         }
@@ -142,8 +146,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         Log.i("Remove ", "removeItem at "+ position);
         mTime.remove(position);
         mName.remove(position);
-        mEat.remove(position);
-        mPass.remove(position);
+        //mPass.remove(position);
 
         notifyItemRemoved(position);
     }
@@ -205,8 +208,8 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
                 values_time.put("eat", 1);
                 db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
 
-                mEat.set(position, true);
-                mPass.remove(position);
+                //mEat.set(position, true);
+                //mPass.remove(position);
                 removeItem(position);
             }
         });
