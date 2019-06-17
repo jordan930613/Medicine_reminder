@@ -65,7 +65,6 @@ public class MainPage extends Fragment {
         SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
         adapter = new MainPage_Adapter(mTime, mName);
         getclick = adapter.sendclick();
-        //SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
 
         Cursor sort = timeDBHelper.sort();
         sort.moveToFirst();
