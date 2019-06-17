@@ -108,6 +108,7 @@ public class MainPage extends Fragment {
 //            data.moveToFirst();
 //            mName.add(data.getString(0));
 //            setNotification();
+            //
 
             sort.moveToNext();
         }

@@ -45,7 +45,7 @@ public class modify_med extends AppCompatActivity {
     String medname, medcount;
     int name_id;
     int time_id;
-    String fixtime = "";
+    String fixtimehour = "", fixtimemin = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +102,20 @@ public class modify_med extends AppCompatActivity {
                         if (hourOfDay < 10) {
                             String gettime = Integer.toString(hourOfDay);
                             String fix = "0";
-                            fixtime = fix + gettime;
+                            fixtimehour = fix + gettime;
                         }else {
-                            fixtime = Integer.toString(hourOfDay);
+                            fixtimehour = Integer.toString(hourOfDay);
                         }
-                        time = fixtime + " : " + minute;
+
+                        if (minute < 10) {
+                            String gettime = Integer.toString(minute);
+                            String fix = "0";
+                            fixtimemin = fix + gettime;
+                        } else {
+                            fixtimemin = Integer.toString(minute);
+                        }
+
+                        time = fixtimehour + " : " + fixtimemin;
                         String get_name = edt_name.getText().toString();
                         System.out.println("get_name = " + get_name);
                         Cursor cursor = mDBHelper.checkName(get_name);
@@ -153,7 +162,7 @@ public class modify_med extends AppCompatActivity {
         if (go_insert_or_update == 1) {
             Toast.makeText(modify_med.this, "Have it", Toast.LENGTH_SHORT).show();
             name_id = mDBHelper.get_name_id(edt_name.getText().toString());
-            time_id = timeDBHelper.get_time_id(Integer.toString(name_id));
+            //time_id = timeDBHelper.get_time_id(Integer.toString(name_id));
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
             //db.update("time_table", values_time, "id_time = '" + time_id + "'", null);

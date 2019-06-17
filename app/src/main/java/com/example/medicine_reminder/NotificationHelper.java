@@ -56,6 +56,7 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(android.R.drawable.arrow_up_float)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
     }
 }
