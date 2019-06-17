@@ -19,8 +19,8 @@
 
         <View
             android:id="@+id/view_sys"
-            android:layout_width="176sp"
-            android:layout_height="34sp"
+            android:layout_width="160sp"
+            android:layout_height="30sp"
             android:layout_margin="8sp"
             android:background="@drawable/bg_round_button_green"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,20 +28,20 @@
 
         <TextView
             android:id="@+id/list_sys"
-            android:layout_width="160sp"
+            android:layout_width="146sp"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:text="收縮壓 | 120 mmHg"
             android:textColor="#FFffffff"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/view_sys"
             app:layout_constraintStart_toStartOf="@+id/view_sys"
             app:layout_constraintTop_toTopOf="@+id/view_sys" />
 
         <View
             android:id="@+id/view_dia"
-            android:layout_width="176sp"
-            android:layout_height="34sp"
+            android:layout_width="160sp"
+            android:layout_height="30sp"
             android:layout_margin="8sp"
             android:background="@drawable/bg_round_button_green"
             app:layout_constraintTop_toBottomOf="@+id/view_sys"
@@ -49,20 +49,20 @@
 
         <TextView
             android:id="@+id/list_dia"
-            android:layout_width="160sp"
+            android:layout_width="146sp"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:text="舒張壓 | 80 mmHg"
             android:textColor="#FFffffff"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/view_dia"
             app:layout_constraintStart_toStartOf="@+id/view_dia"
             app:layout_constraintTop_toTopOf="@+id/view_dia" />
 
         <View
             android:id="@+id/view_pul"
-            android:layout_width="150sp"
-            android:layout_height="34sp"
+            android:layout_width="134sp"
+            android:layout_height="30sp"
             android:layout_margin="8sp"
             android:background="@drawable/bg_round_button_red"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,12 +71,12 @@
 
         <TextView
             android:id="@+id/list_pul"
-            android:layout_width="134sp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:text="心跳 | 177 次/分"
             android:textColor="#FFffffff"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/view_pul"
             app:layout_constraintEnd_toEndOf="@+id/view_pul"
             app:layout_constraintStart_toStartOf="@+id/view_pul"
@@ -84,8 +84,8 @@
 
         <View
             android:id="@+id/view_sugar"
-            android:layout_width="160sp"
-            android:layout_height="34sp"
+            android:layout_width="144sp"
+            android:layout_height="30sp"
             android:layout_margin="8sp"
             android:background="@drawable/bg_round_button_yellow"
             app:layout_constraintRight_toRightOf="parent"
@@ -94,12 +94,12 @@
 
         <TextView
             android:id="@+id/list_sugar"
-            android:layout_width="144sp"
+            android:layout_width="130sp"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:text="血糖 | 120 mg/dL"
             android:textColor="#FFffffff"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/view_sugar"
             app:layout_constraintEnd_toEndOf="@+id/view_sugar"
             app:layout_constraintStart_toStartOf="@+id/view_sugar"

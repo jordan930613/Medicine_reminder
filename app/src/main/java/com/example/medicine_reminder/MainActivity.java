@@ -94,11 +94,6 @@ public class MainActivity extends AppCompatActivity
             Medicine_package medicine_package = new Medicine_package();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, medicine_package).commit();
-        } else if (id == R.id.nav_completion) {
-            setTitle("完成度");
-            FinishpPercentage finishpPercentage = new FinishpPercentage();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment, finishpPercentage).commit();
         } else if (id == R.id.nav_health) {
             setTitle("我的數值");
             Healthy healthy = new Healthy();

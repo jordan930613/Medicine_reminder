@@ -1,10 +1,13 @@
 package com.example.medicine_reminder;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.drm.DrmStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +19,7 @@ public class HealthIntent extends AppCompatActivity {
 
     private long list_id;
     private EditText mSys, mDia, mPul, mSugar, mWeight;
-    private FloatingActionButton fab_save;
+    private FloatingActionButton fab_save, fab_del;
     private SQLiteDAO sqLiteDAO;
 
     @Override
@@ -32,6 +35,7 @@ public class HealthIntent extends AppCompatActivity {
         mSugar = findViewById(R.id.set_sugar);
         mWeight = findViewById(R.id.set_weight);
         fab_save = findViewById(R.id.health_save);
+        fab_del = findViewById(R.id.health_del);
         sqLiteDAO = new SQLiteDAO(HealthIntent.this);
 
         if(list_id >0){
@@ -76,6 +80,31 @@ public class HealthIntent extends AppCompatActivity {
                     finish();
 
                 }
+            }
+        });
+
+        fab_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(HealthIntent.this);
+                dialog.setTitle("刪除")
+                        .setMessage("確定要刪除這筆數值嗎");
+
+                dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sqLiteDAO.delete(list_id);
+                        finish();
+                    }
+                });
+
+                dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.show();
             }
         });
     }

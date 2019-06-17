@@ -13,10 +13,6 @@
             android:icon="@drawable/ic_menu_mybag"
             android:title="@string/menu_mybag" />
         <item
-            android:id="@+id/nav_completion"
-            android:icon="@drawable/ic_menu_completion"
-            android:title="@string/menu_completion" />
-        <item
             android:id="@+id/nav_health"
             android:icon="@drawable/ic_menu_health"
             android:title="@string/menu_health" />
