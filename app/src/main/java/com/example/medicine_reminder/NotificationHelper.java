@@ -55,7 +55,7 @@ public class NotificationHelper extends ContextWrapper {
         return new NotificationCompat.Builder(getApplicationContext(), "1")
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(android.R.drawable.arrow_up_float)
+                .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
                 .setContentIntent(pendingIntent);
     }
 }

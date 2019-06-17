@@ -9,11 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,8 +27,6 @@ public class Healthy extends Fragment {
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
     private HealthAdapter adapter;
-    private SQLiteDAO sqLiteDAO;
-    private Item item;
 
     public Healthy() {
         // Required empty public constructor
@@ -45,8 +45,6 @@ public class Healthy extends Fragment {
         super.onActivityCreated(savedInstanceState);
         fab = view.findViewById(R.id.healthadd);
         recyclerView = view.findViewById(R.id.recycler_view_health);
-        sqLiteDAO = new SQLiteDAO(getActivity());
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,30 +60,24 @@ public class Healthy extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-         ArrayList<Integer> mSys = new ArrayList<>();
-         ArrayList<Integer> mDia = new ArrayList<>();
-         ArrayList<Integer> mPul = new ArrayList<>();
-         ArrayList<Integer> mSugar = new ArrayList<>();
-         ArrayList<Integer> mWeight = new ArrayList<>();
-         ArrayList<String> mDate = new ArrayList<>();
-         ArrayList<Long> mID = new ArrayList<>();
-        for (int i = 1; i <= sqLiteDAO.getCount() ; i++) {
-            item = sqLiteDAO.get(i);
-            mSys.add(item.getSys());
-            mDia.add(item.getDia());
-            mPul.add(item.getPUL());
-            mSugar.add(item.getBloodsugar());
-            mWeight.add(item.getWeight());
-            mDate.add(item.getLocaleDatetime());
-            mID.add(item.getId());
-        }
+//         ArrayList<Integer> mSys = new ArrayList<>();
+//         ArrayList<Integer> mDia = new ArrayList<>();
+//         ArrayList<Integer> mPul = new ArrayList<>();
+//         ArrayList<Integer> mSugar = new ArrayList<>();
+//         ArrayList<Integer> mWeight = new ArrayList<>();
+//         ArrayList<String> mDate = new ArrayList<>();
+//         ArrayList<Long> mID = new ArrayList<>();
+         List<Item> mItem = new ArrayList<>();
+         SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
+         mItem = sqLiteDAO.getAll();
+
         // 設置RecyclerView為列表型態
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // 設置格線
         //recyclerView.addItemDecoration(new DividerItemDecoration(c, DividerItemDecoration.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         // 將資料交給adapter
-        adapter = new HealthAdapter(mSys, mDia, mPul, mSugar,mWeight,mDate,mID);
+        adapter = new HealthAdapter(mItem);
         // 設置adapter給recycler_view
         recyclerView.setAdapter(adapter);
     }
