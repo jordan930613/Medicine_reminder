@@ -36,6 +36,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     TimeDBHelper timeDBHelper;
     String getName;
     String getTime;
+    int click = 0;
 
     private void setContext(Context context){
         this.mContext = context;
@@ -67,6 +68,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
 //                    Intent intent = new Intent(mContext,MainPageIntent.class);
 //
 //                    mContext.startActivity(intent);
+                    click = 0;
                     openOptionDialog(mName.get(0));
 //                    int get_med_count = mDBHelper.get_med_count(getName);
 //                    System.out.println("get_med_count = " + get_med_count);
@@ -167,6 +169,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
                     System.out.println("getname = " + name);
                     reminderDialog(name);
                 }
+                click = 1;
                 removeItem(0);
             }
         });
@@ -199,6 +202,11 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         });
 
         dialog.show();
+    }
+
+    public int sendclick() {
+
+        return click;
     }
 
 

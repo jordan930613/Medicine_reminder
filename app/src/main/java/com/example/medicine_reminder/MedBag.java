@@ -38,7 +38,7 @@ public class MedBag extends AppCompatActivity {
     Calendar calendar;
 
     String time = "";
-    String fixtime = "";
+    String fixtimehour = "", fixtimemin = "";
     String medname, medcount;
     static final String[] FROM = new String[] {"name", "med_count"};
     int get_got_it, go_insert_or_update;
@@ -85,11 +85,20 @@ public class MedBag extends AppCompatActivity {
                         if (hourOfDay < 10) {
                             String gettime = Integer.toString(hourOfDay);
                             String fix = "0";
-                            fixtime = fix + gettime;
+                            fixtimehour = fix + gettime;
                         }else {
-                            fixtime = Integer.toString(hourOfDay);
+                            fixtimehour = Integer.toString(hourOfDay);
                         }
-                        time = fixtime + " : " + minute;
+
+                        if (minute < 10) {
+                            String gettime = Integer.toString(minute);
+                            String fix = "0";
+                            fixtimemin = fix + gettime;
+                        } else {
+                            fixtimemin = Integer.toString(minute);
+                        }
+
+                        time = fixtimehour + " : " + fixtimemin;
                         String get_name = med_name_edt.getText().toString();
                         Cursor cursor = mDBHelper.checkName(get_name);
                         get_got_it = mDBHelper.getGot_it();

@@ -60,14 +60,11 @@ public class MainPage extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        DBHelper mDBHelper;
-        TimeDBHelper timeDBHelper;
-
         mDBHelper = new DBHelper(getActivity());
         timeDBHelper = new TimeDBHelper(getActivity());
         SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
         adapter = new MainPage_Adapter(mTime, mName);
-        //getclick = adapter.sendclick();
+        getclick = adapter.sendclick();
         //SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
 
         Cursor sort = timeDBHelper.sort();
