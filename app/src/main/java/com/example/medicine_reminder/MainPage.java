@@ -40,6 +40,9 @@ public class MainPage extends Fragment {
     String getName[];
     String sendname = "";
     public static String name = "";
+    int getclick = 0;
+    DBHelper mDBHelper;
+    TimeDBHelper timeDBHelper;
 
     public MainPage() {
         // Required empty public constructor
@@ -57,11 +60,10 @@ public class MainPage extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        DBHelper mDBHelper;
-        TimeDBHelper timeDBHelper;
-
         mDBHelper = new DBHelper(getActivity());
         timeDBHelper = new TimeDBHelper(getActivity());
+        adapter = new MainPage_Adapter(mTime, mName);
+        getclick = adapter.sendclick();
 
         Cursor sort = timeDBHelper.sort();
         sort.moveToFirst();
@@ -100,6 +102,12 @@ public class MainPage extends Fragment {
             } else if (hour > Integer.parseInt(splited[0])) {
 
             }
+//            mTime.add(sort.getString(0));
+//            String getid = sort.getString(1);
+//            Cursor data = mDBHelper.getname(getid);
+//            data.moveToFirst();
+//            mName.add(data.getString(0));
+//            setNotification();
 
             sort.moveToNext();
         }
@@ -151,7 +159,10 @@ public class MainPage extends Fragment {
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
         Intent intent = new Intent(getActivity(), Notification_reciever.class);
-        //intent.putExtra("channel", )
+
+//        int getnameid = mDBHelper.get_name_id(name);
+//        int gettimeid = timeDBHelper.get_time_id(getnameid);
+//        intent.putExtra("channel", gettimeid);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
