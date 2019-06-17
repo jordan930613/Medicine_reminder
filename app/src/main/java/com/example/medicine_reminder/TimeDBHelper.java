@@ -30,7 +30,8 @@ public class TimeDBHelper extends SQLiteOpenHelper {
                 "(id_time INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name_id VARCHAR(32), " +
                 "datetime VARCHAR(32), " +
-                "eat INTEGER NOT NULL)";
+                "eat INTEGER NOT NULL, " +
+                "dead INTEGER NOT NULL)";
 
         db.execSQL(CREATE_TABLE);
 
@@ -79,7 +80,7 @@ public class TimeDBHelper extends SQLiteOpenHelper {
 
     public Cursor sort() {
         SQLiteDatabase db  = this.getWritableDatabase();
-        String query = "SELECT datetime,name_id FROM " + TABLE_NAME + " ORDER BY datetime ASC ";
+        String query = "SELECT datetime,name_id,dead FROM " + TABLE_NAME + " ORDER BY datetime ASC ";
         Cursor data = db.rawQuery(query, null);
 
         return data;
@@ -88,6 +89,15 @@ public class TimeDBHelper extends SQLiteOpenHelper {
     public Cursor checkEat(int nameId, String time) {
         SQLiteDatabase db  = this.getWritableDatabase();
         String query = "SELECT eat FROM " + TABLE_NAME + " WHERE datetime = '" + time + "'"+ " AND name_id = '" + nameId + "'";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+
+        return data;
+    }
+
+    public Cursor checkDead(int nameId, String time) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT dead FROM " + TABLE_NAME + " WHERE datetime = '" + time + "'"+ " AND name_id = '" + nameId + "'";
         Cursor data = db.rawQuery(query, null);
         data.moveToFirst();
 
@@ -107,7 +117,8 @@ public class TimeDBHelper extends SQLiteOpenHelper {
                 "(id_time INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name_id VARCHAR(32), " +
                 "datetime VARCHAR(32), " +
-                "eat INTEGER NOT NULL)";
+                "eat INTEGER NOT NULL, " +
+                "dead INTEGER NOT NULL)";
 
         db.execSQL(CREATE_TABLE);
         super.onOpen(db);
@@ -125,15 +136,14 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(query, null);
 
         Get_datacount = data.getCount();
-        System.out.println("getdatacount = " + Get_datacount);
-
 
         return data;
     }
 
-    public int getGet_datacount() {
+    public int get_datacount() {
 
         datacount();
+        System.out.println("getdatacount = " + Get_datacount);
 
         return Get_datacount;
     }

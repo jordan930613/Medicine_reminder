@@ -48,7 +48,7 @@ public class MainPage extends Fragment {
     int getclick = 0;
     DBHelper mDBHelper;
     TimeDBHelper timeDBHelper;
-    int countTure;
+    int countEat = 0;
 
     public MainPage() {
         // Required empty public constructor
@@ -77,31 +77,9 @@ public class MainPage extends Fragment {
         Cursor sort = timeDBHelper.sort();
         sort.moveToFirst();
 
-        int position = 0;
+        countEat = 0;
         while (!sort.isAfterLast()) {
             String splited[] = sort.getString(0).split(" : ");
-
-//            if (hour < Integer.parseInt(splited[0])) {
-//                mTime.add(sort.getString(0));
-//                String getid = sort.getString(1);
-//                Cursor data = mDBHelper.getname(getid);
-//                data.moveToFirst();
-//                mName.add(data.getString(0));
-//                setNotification();
-//
-//            } else if (hour == Integer.parseInt(splited[0])) {
-//                if (min <= Integer.parseInt(splited[1])) {
-//                    mTime.add(sort.getString(0));
-//                    String getid = sort.getString(1);
-//                    Cursor data = mDBHelper.getname(getid);
-//                    data.moveToFirst();
-//                    mName.add(data.getString(0));
-//                    setNotification();
-//                }
-//
-//            } else if (hour > Integer.parseInt(splited[0])) {
-//
-//            }
 
             String getid = sort.getString(1);
             String gettime = sort.getString(0);
@@ -109,33 +87,51 @@ public class MainPage extends Fragment {
             //沒吃就會顯示
             if (Integer.parseInt(eat.getString(0)) == 0){
                 mTime.add(sort.getString(0));
+                mPass.add(Boolean.parseBoolean(sort.getString(2)));
                 Cursor data = mDBHelper.getname(getid);
                 data.moveToFirst();
                 mName.add(data.getString(0));
             }
 
-            mEat.add(false); //注入與Time同數量True
-            mPass.add(false);
+            if (hour > Integer.parseInt(splited[0]) && (Integer.parseInt(eat.getString(0)) == 0)) {
+                countEat++;
+            } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1]) && (Integer.parseInt(eat.getString(0)) == 0)) {
+                countEat++;
+            }
+            System.out.println("countEat = " + countEat);
+
+//            mEat.add(false); //注入與Time同數量True
+//            mPass.add(false);
 
             if (hour > Integer.parseInt(splited[0])) {
-                mPass.set(position, true);
-//                setNotification(countTure);
+                int getNameId = Integer.parseInt(getid);
+                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
+                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+                ContentValues values_time = new ContentValues();
+                values_time.put("dead", 1);
+                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+
             } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1])) {
-//                setNotification(countTure);
-                mPass.set(position, true);
+                int getNameId = Integer.parseInt(getid);
+                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
+                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+                ContentValues values_time = new ContentValues();
+                values_time.put("dead", 1);
+                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
             }
-            position++;
             sort.moveToNext();
         }
 
-        int count =timeDBHelper.getGet_datacount();
-        countTure = 0;
+        setNotification(countEat);
 
-        for (int j = 0; j < count; j++){
-            Log.v("J = ", j+"");
-            if (mEat.get(j) == true)
-                countTure++;
-        }
+//        int count =timeDBHelper.getGet_datacount();
+//        countEat = 0;
+//
+//        for (int j = 0; j < count; j++){
+//            Log.v("J = ", j+"");
+//            if (mEat.get(j) == true)
+//                countEat++;
+//        }
 
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_mainpage);
         // 設置RecyclerView為列表型態
@@ -152,12 +148,12 @@ public class MainPage extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    public void setNotification(int countTrue) {
+    public void setNotification(int count_Eat) {
         System.out.println("which first = " + 1);
         name = sendName();
         System.out.println("sed_name = " + name);
 
-        getName = adapter.sendPosition(countTrue);
+        getName = adapter.sendPosition(count_Eat);
         String time = getName[1];
         String timeer[] = time.split(" : ");
         String hour = timeer[0];
@@ -185,8 +181,9 @@ public class MainPage extends Fragment {
     }
 
     public String sendName() {
-        adapter = new MainPage_Adapter(mTime, mName, mEat, mPass);
-        getName = adapter.sendPosition(countTure);
+        adapter = new MainPage_Adapter(mTime, mName, mEat, mPass
+        );
+        getName = adapter.sendPosition(countEat);
 
         sendname = getName[0];
         System.out.println("sendname = " + sendname);

@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ import android.widget.Toolbar;
 
 import java.lang.reflect.Member;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -92,10 +94,40 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         // 設置txtItem要顯示的內容
         holder.item_tvTime.setText(mTime.get(position));
         holder.item_tvName.setText(mName.get(position));
+
+//        Calendar compare_time = Calendar.getInstance();
+//        int hour = compare_time.get(Calendar.HOUR_OF_DAY);
+//        int min = compare_time.get(Calendar.MINUTE);
+//
+//        Cursor sort = timeDBHelper.sort();
+//        sort.moveToFirst();
+//
+//        while (!sort.isAfterLast()) {
+//            String splited[] = sort.getString(0).split(" : ");
+//            if (hour > Integer.parseInt(splited[0])) {
+//                int getNameId = mDBHelper.get_name_id(sort.getString(1));
+//                int getTimeId = timeDBHelper.get_time_id(getNameId, sort.getString(0));
+//                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+//                ContentValues values_time = new ContentValues();
+//                values_time.put("dead", 1);
+//                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+//
+//            } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1])) {
+//                int getNameId = mDBHelper.get_name_id(sort.getString(1));
+//                int getTimeId = timeDBHelper.get_time_id(getNameId, sort.getString(0));
+//                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+//                ContentValues values_time = new ContentValues();
+//                values_time.put("dead", 1);
+//                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+//            }
+//            sort.moveToNext();
+//        }
+
         if(mPass.get(position)){
             holder.titleColor.setBackgroundColor(Color.parseColor("#cc0000"));
             holder.item_tvTime.setTextColor(Color.parseColor("#cc0000"));
         }
+
     }
     // 新增項目
     public void addItem(String time, String name) {
@@ -116,7 +148,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         notifyItemRemoved(position);
     }
 
-    public String[] sendPosition(int countTrue) {
+    public String[] sendPosition(int count_Eat) {
 
         String getName;
         String getTime;
@@ -125,13 +157,17 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
 
         if (mName.isEmpty())
             getName = "testing";
+        else if (mName.size() > count_Eat)
+            getName = mName.get(count_Eat);
         else
-            getName = mName.get(countTrue);
+            getName = "testing";
 
         if (mTime.isEmpty())
             getTime = "11 : 10";
+        else if (mTime.size() > count_Eat)
+            getTime = mTime.get(count_Eat);
         else
-            getTime = mTime.get(countTrue);
+            getTime = "11 : 10";
 
         String send[] = {getName, getTime};
 
@@ -170,6 +206,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
                 db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
 
                 mEat.set(position, true);
+                mPass.remove(position);
                 removeItem(position);
             }
         });
