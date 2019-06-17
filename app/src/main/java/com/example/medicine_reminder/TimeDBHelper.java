@@ -20,7 +20,7 @@ public class TimeDBHelper extends SQLiteOpenHelper {
     int Get_datacount;
 
     public TimeDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
     }
 
     @Override
@@ -29,7 +29,8 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
                 "(id_time INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name_id VARCHAR(32), " +
-                "datetime VARCHAR(32))";
+                "datetime VARCHAR(32), " +
+                "eat INTEGER NOT NULL)";
 
         db.execSQL(CREATE_TABLE);
 
@@ -62,9 +63,9 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public int get_time_id(int get_name_id) {
+    public int get_time_id(int get_name_id, String get_time) {
         SQLiteDatabase db  = this.getWritableDatabase();
-        String query = "SELECT id_time FROM " + TABLE_NAME + " WHERE name_id = '" + get_name_id + "'";
+        String query = "SELECT id_time FROM " + TABLE_NAME + " WHERE name_id = '" + get_name_id + "'" + " AND datetime = '" + get_time + "'";
         Cursor data = db.rawQuery(query, null);
         data.moveToFirst();
 
@@ -84,6 +85,15 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor checkEat(int nameId, String time) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT eat FROM " + TABLE_NAME + " WHERE datetime = '" + time + "'"+ " AND name_id = '" + nameId + "'";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+
+        return data;
+    }
+
     public void deleteTime(String get_datetime, int get_name_id){
         SQLiteDatabase db  = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE datetime = '" + get_datetime + "'" + " AND name_id = '" + get_name_id + "'");
@@ -96,7 +106,8 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
                 "(id_time INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name_id VARCHAR(32), " +
-                "datetime VARCHAR(32))";
+                "datetime VARCHAR(32), " +
+                "eat INTEGER NOT NULL)";
 
         db.execSQL(CREATE_TABLE);
         super.onOpen(db);

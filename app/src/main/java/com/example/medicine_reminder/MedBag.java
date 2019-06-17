@@ -147,6 +147,7 @@ public class MedBag extends AppCompatActivity {
             name_id = mDBHelper.get_name_id(med_name_edt.getText().toString());
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
+            values_time.put("eat", 0);
             db_time.insert("time_table", null, values_time);
 
         }else if (go_insert_or_update == 0) {
@@ -157,6 +158,7 @@ public class MedBag extends AppCompatActivity {
             name_id = mDBHelper.get_name_id(med_name_edt.getText().toString());
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
+            values_time.put("eat", 0);
             db_time.insert("time_table", null, values_time);
         }
 

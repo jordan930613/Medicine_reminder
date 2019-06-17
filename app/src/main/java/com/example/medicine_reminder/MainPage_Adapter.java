@@ -3,9 +3,11 @@ package com.example.medicine_reminder;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +65,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
             setContext(itemView.getContext());
 
             mDBHelper = new DBHelper(mContext);
+            timeDBHelper = new TimeDBHelper(mContext);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,12 +153,22 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String name = mName.get(position);
+                String time = mTime.get(position);
                 mDBHelper.decreaseCount(mDBHelper.get_name_id(name));
                 int get_med_count = mDBHelper.get_med_count(name);
 
                 if (get_med_count == 0) {
                     reminderDialog(name);
                 }
+
+                int getNameId = mDBHelper.get_name_id(name);
+                int getTimeId = timeDBHelper.get_time_id(getNameId, time);
+
+                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+                ContentValues values_time = new ContentValues();
+                values_time.put("eat", 1);
+                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+
                 mEat.set(position, true);
                 removeItem(position);
             }

@@ -3,8 +3,10 @@ package com.example.medicine_reminder;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -101,13 +103,19 @@ public class MainPage extends Fragment {
 //
 //            }
 
-            mTime.add(sort.getString(0));
+            String getid = sort.getString(1);
+            String gettime = sort.getString(0);
+            Cursor eat = timeDBHelper.checkEat(Integer.parseInt(getid), gettime);
+            //沒吃就會顯示
+            if (Integer.parseInt(eat.getString(0)) == 0){
+                mTime.add(sort.getString(0));
+                Cursor data = mDBHelper.getname(getid);
+                data.moveToFirst();
+                mName.add(data.getString(0));
+            }
+
             mEat.add(false); //注入與Time同數量True
             mPass.add(false);
-            String getid = sort.getString(1);
-            Cursor data = mDBHelper.getname(getid);
-            data.moveToFirst();
-            mName.add(data.getString(0));
 
             if (hour > Integer.parseInt(splited[0])) {
                 mPass.set(position, true);

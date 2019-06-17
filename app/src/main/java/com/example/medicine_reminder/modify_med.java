@@ -165,6 +165,7 @@ public class modify_med extends AppCompatActivity {
             //time_id = timeDBHelper.get_time_id(Integer.toString(name_id));
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
+            values_time.put("eat", 0);
             //db.update("time_table", values_time, "id_time = '" + time_id + "'", null);
             db_time.insert("time_table", null, values_time);
             Toast.makeText(this, "update", Toast.LENGTH_SHORT).show();
@@ -179,6 +180,7 @@ public class modify_med extends AppCompatActivity {
             name_id = mDBHelper.get_name_id(edt_name.getText().toString());
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
+            values_time.put("eat", 0);
             db_time.insert("time_table", null, values_time);
         }
 

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static SQLiteDatabase db;
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME ="mydata.db";
 
     public SQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,

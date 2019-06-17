@@ -18,7 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // 建構子，在一般的應用都不需要修改
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
     }
 
     @Override
@@ -164,4 +164,5 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "DELETE FROM " + TABLE_NAME + " WHERE name_id = '" + name_id + "'";
         db.execSQL(query);
     }
+
 }

@@ -22,10 +22,10 @@ public class Notification_reciever extends BroadcastReceiver {
         mainPage = new MainPage();
         name =  mainPage.get_sed_name();
         System.out.println("name = " + name);
-//        int channel = intent.getIntExtra("channel", 0);
-//        System.out.println("channel = " + channel);
+        int channel = intent.getIntExtra("channel", 0);
+        System.out.println("channel = " + channel);
         NotificationCompat.Builder nb = notificationHelper.getChannelNotification("該吃藥嘍！！！", "藥包 ： " + name);
-        notificationHelper.getManager().notify(1, nb.build());
+        notificationHelper.getManager().notify(channel, nb.build());
 
     }
 }
