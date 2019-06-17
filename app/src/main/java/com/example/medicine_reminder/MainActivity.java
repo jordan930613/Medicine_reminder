@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, finishpPercentage).commit();
         } else if (id == R.id.nav_health) {
-            setTitle("健康度");
+            setTitle("我的數值");
             Healthy healthy = new Healthy();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment, healthy).commit();

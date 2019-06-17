@@ -10,7 +10,7 @@
     <string name="menu_home">首頁</string>
     <string name="menu_mybag">我的藥袋</string>
     <string name="menu_completion">完成度</string>
-    <string name="menu_health">健康狀況</string>
+    <string name="menu_health">我的數值</string>
     <string name="menu_setting">設定</string>
 
     <!-- TODO: Remove or change this placeholder text -->
