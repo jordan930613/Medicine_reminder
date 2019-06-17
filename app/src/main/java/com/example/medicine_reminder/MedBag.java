@@ -113,17 +113,15 @@ public class MedBag extends AppCompatActivity {
     private void checkGotit() {
         if (get_max_time == 1){
             go_insert_or_update = 1;                 //已經有four data
-            Toast.makeText(MedBag.this, "full time", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MedBag.this, "full time", Toast.LENGTH_SHORT).show();
         }
         else if (get_got_it == 1) {
             go_insert_or_update = 1;                 //已經有這筆資料
-            Toast.makeText(MedBag.this, "已經有這筆資料了", Toast.LENGTH_SHORT).show();
             setData();
         }
         else {
             setData();
             go_insert_or_update = 0;
-            Toast.makeText(MedBag.this, "setData", Toast.LENGTH_SHORT).show();
         }
     }
 

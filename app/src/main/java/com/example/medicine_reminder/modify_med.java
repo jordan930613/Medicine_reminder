@@ -131,17 +131,15 @@ public class modify_med extends AppCompatActivity {
     private void checkGotit() {
         if (get_max_time == 1){
             go_insert_or_update = 1;                 //已經有four data
-            Toast.makeText(modify_med.this, "full time", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(modify_med.this, "full time", Toast.LENGTH_SHORT).show();
         }
         else if (get_got_it == 1) {
             go_insert_or_update = 1;                 //已經有這筆資料
-            Toast.makeText(modify_med.this, "已經有這筆資料了", Toast.LENGTH_SHORT).show();
             setData();
         }
         else {
             setData();
             go_insert_or_update = 0;
-            Toast.makeText(modify_med.this, "setData", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -160,14 +158,12 @@ public class modify_med extends AppCompatActivity {
         ContentValues values_time = new ContentValues();
 
         if (go_insert_or_update == 1) {
-            Toast.makeText(modify_med.this, "Have it", Toast.LENGTH_SHORT).show();
             name_id = mDBHelper.get_name_id(edt_name.getText().toString());
             //time_id = timeDBHelper.get_time_id(Integer.toString(name_id));
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
             //db.update("time_table", values_time, "id_time = '" + time_id + "'", null);
             db_time.insert("time_table", null, values_time);
-            Toast.makeText(this, "update", Toast.LENGTH_SHORT).show();
             values.put("med_count", med_count);
             db.update("med_table", values, "name_id = '" + name_id + "'", null);
 
@@ -211,8 +207,6 @@ public class modify_med extends AppCompatActivity {
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listData);
 
         list.setAdapter(adapter);
-
-        Toast.makeText(this, "左右滑動可移除時間", Toast.LENGTH_SHORT).show();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

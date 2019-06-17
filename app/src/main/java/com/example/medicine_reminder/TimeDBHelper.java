@@ -53,10 +53,7 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(query, null);
         if (data.getCount() >= 4) {
             max_time = 1;
-            System.out.println("hhhhhhhhhhhhh" + max_time);
         }
-
-        System.out.println("aaaaaaaaaaaaaaaaa" + data.getCount());
 
         return data;
     }

@@ -37,9 +37,7 @@ public class MyPreferenceFragment extends PreferenceFragment
                     pref.edit().putInt("notification",0).commit();
                     notificationHelper.CancelNotification();
                 }
-//                Toast.makeText(mContext,String.format("Preference的值為%s", newValue), Toast.LENGTH_SHORT).show();
                 String lloogg = Integer.toString(pref.getInt("notification", -1));
-                Toast.makeText(mContext, lloogg, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -48,7 +46,6 @@ public class MyPreferenceFragment extends PreferenceFragment
         about_us.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Toast.makeText(mContext, "Click", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, AboutUs.class);
                 startActivity(intent);
                 return false;

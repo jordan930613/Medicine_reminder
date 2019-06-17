@@ -59,7 +59,6 @@ public class HealthAdapter extends RecyclerView.Adapter<HealthAdapter.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(),"Click"+getAdapterPosition(),Toast.LENGTH_SHORT).show();
                     Bundle bundle = new Bundle();
                     Intent intent = new Intent(mContext,HealthIntent.class);
                     bundle.putLong("ID", mItem.get(getAdapterPosition()).getId());
@@ -103,7 +102,7 @@ public class HealthAdapter extends RecyclerView.Adapter<HealthAdapter.ViewHolder
         else
             holder.item_weight.setText("體重 | " + mItem.get(position).getWeight() + " kg");
 
-        holder.item_date.setText("紀錄時間  "+ mItem.get(position).getDatetime());
+        holder.item_date.setText("紀錄時間  "+ mItem.get(position).getLocaleDatetime());
 
         if(mItem.get(position).getSys()>140 || mItem.get(position).getDia()>90 || mItem.get(position).getPUL()>100 || mItem.get(position).getBloodsugar()>150){
             holder.img.setImageResource(R.drawable.ic_mood_bad);
