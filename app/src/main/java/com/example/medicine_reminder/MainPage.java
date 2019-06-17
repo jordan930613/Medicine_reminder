@@ -36,6 +36,7 @@ public class MainPage extends Fragment {
     private MainPage_Adapter adapter;
     private ArrayList<String> mTime = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
+    private ArrayList<Boolean> mEat = new ArrayList<>();
     Notification_reciever notification_reciever;
     String getName[];
     String sendname = "";
@@ -43,6 +44,8 @@ public class MainPage extends Fragment {
     int getclick = 0;
     DBHelper mDBHelper;
     TimeDBHelper timeDBHelper;
+    int i = 0, m = 0;
+    int countTure;
 
     public MainPage() {
         // Required empty public constructor
@@ -60,15 +63,13 @@ public class MainPage extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        DBHelper mDBHelper;
-        TimeDBHelper timeDBHelper;
-
         mDBHelper = new DBHelper(getActivity());
         timeDBHelper = new TimeDBHelper(getActivity());
+        adapter = new MainPage_Adapter(mTime, mName, mEat);
+        adapter.count();
+        getclick = adapter.sendclick();
         SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
-        adapter = new MainPage_Adapter(mTime, mName);
-        //getclick = adapter.sendclick();
-        //SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
+
 
         Cursor sort = timeDBHelper.sort();
         sort.moveToFirst();
@@ -80,40 +81,62 @@ public class MainPage extends Fragment {
         System.out.println("current hour =" + hour);
         System.out.println("current min =" + min);
 
+        i = 0;
+        int count =timeDBHelper.getGet_datacount();
+        countTure = 0;
+
+        for (int j = 0; j < count; j++){
+            if (mEat.get(j) == false)
+                countTure++;
+        }
 
         while (!sort.isAfterLast()) {
             System.out.println("sort = " + sort.getString(0));
             String splited[] = sort.getString(0).split(" : ");
             System.out.println("check = " + Integer.parseInt(splited[0]));
 
-            if (hour < Integer.parseInt(splited[0])) {
-                mTime.add(sort.getString(0));
-                String getid = sort.getString(1);
-                Cursor data = mDBHelper.getname(getid);
-                data.moveToFirst();
-                mName.add(data.getString(0));
-                setNotification();
+//            if (hour < Integer.parseInt(splited[0])) {
+//                mTime.add(sort.getString(0));
+//                String getid = sort.getString(1);
+//                Cursor data = mDBHelper.getname(getid);
+//                data.moveToFirst();
+//                mName.add(data.getString(0));
+//                setNotification();
+//
+//            } else if (hour == Integer.parseInt(splited[0])) {
+//                if (min <= Integer.parseInt(splited[1])) {
+//                    mTime.add(sort.getString(0));
+//                    String getid = sort.getString(1);
+//                    Cursor data = mDBHelper.getname(getid);
+//                    data.moveToFirst();
+//                    mName.add(data.getString(0));
+//                    setNotification();
+//                }
+//
+//            } else if (hour > Integer.parseInt(splited[0])) {
+//
+//            }
 
+
+            mTime.add(sort.getString(0));
+            String getid = sort.getString(1);
+            Cursor data = mDBHelper.getname(getid);
+            data.moveToFirst();
+            mName.add(data.getString(0));
+
+
+            if (hour < Integer.parseInt(splited[0])) {
+                setNotification(countTure);
             } else if (hour == Integer.parseInt(splited[0])) {
                 if (min <= Integer.parseInt(splited[1])) {
-                    mTime.add(sort.getString(0));
-                    String getid = sort.getString(1);
-                    Cursor data = mDBHelper.getname(getid);
-                    data.moveToFirst();
-                    mName.add(data.getString(0));
-                    setNotification();
+                    setNotification(countTure);
+                } else {
+                    i++;
                 }
-
-            } else if (hour > Integer.parseInt(splited[0])) {
-
+            } else {
+                i++;
             }
-//            mTime.add(sort.getString(0));
-//            String getid = sort.getString(1);
-//            Cursor data = mDBHelper.getname(getid);
-//            data.moveToFirst();
-//            mName.add(data.getString(0));
-//            setNotification();
-            //
+
 
             sort.moveToNext();
         }
@@ -124,7 +147,7 @@ public class MainPage extends Fragment {
         //recyclerView.addItemDecoration(new DividerItemDecoration(c, DividerItemDecoration.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         // 將資料交給adapter
-        adapter = new MainPage_Adapter(mTime, mName);
+        adapter = new MainPage_Adapter(mTime, mName, mEat);
         //設定notification
         //setNotification();
 
@@ -140,12 +163,12 @@ public class MainPage extends Fragment {
 //        });
     }
 
-    public void setNotification() {
+    public void setNotification(int countTrue) {
         System.out.println("which first = " + 1);
         name = sendName();
         System.out.println("sed_name = " + name);
 
-        getName = adapter.sendPosition();
+        getName = adapter.sendPosition(countTrue);
         String time = getName[1];
         String timeer[] = time.split(" : ");
         String hour = timeer[0];
@@ -177,8 +200,8 @@ public class MainPage extends Fragment {
 
     public String sendName() {
         System.out.println("which first = " + 2);
-        adapter = new MainPage_Adapter(mTime, mName);
-        getName = adapter.sendPosition();
+        adapter = new MainPage_Adapter(mTime, mName, mEat);
+        getName = adapter.sendPosition(countTure);
 
         sendname = getName[0];
         System.out.println("sendname = " + sendname);
