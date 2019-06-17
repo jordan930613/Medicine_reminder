@@ -9,6 +9,7 @@ import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
     int Got_it = 0;
+    int Get_datacount = 0;
 
     private static final String DATABASE_NAME = "mydata.db";
 
@@ -69,12 +70,34 @@ public class DBHelper extends SQLiteOpenHelper {
             Got_it = 1;
         }
 
+
         return data;
     }
+
+    public Cursor datacount() {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT name FROM " + TABLE_NAME;
+        Cursor data = db.rawQuery(query, null);
+
+        Get_datacount = data.getCount();
+        System.out.println("getdatacount = " + Get_datacount);
+
+
+        return data;
+    }
+
+
 
     public int getGot_it() {
 
         return Got_it;
+    }
+
+    public int getGet_datacount() {
+
+        datacount();
+
+        return Get_datacount;
     }
 
     public int get_name_id(String get_name) {

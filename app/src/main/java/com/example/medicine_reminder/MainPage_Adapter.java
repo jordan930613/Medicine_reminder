@@ -31,18 +31,21 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     private Context mContext;
     private List<String> mTime;
     private List<String> mName;
+    private List<Boolean> mEat;
     private Boolean key = true;
     DBHelper mDBHelper;
     TimeDBHelper timeDBHelper;
     String getName;
     String getTime;
+    int click = 0;
 
     private void setContext(Context context){
         this.mContext = context;
     }
-    MainPage_Adapter(List<String> time, List<String> name){
+    MainPage_Adapter(List<String> time, List<String> name, List<Boolean> eat){
         mTime = time;
         mName = name;
+        mEat = eat;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,7 +61,16 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
             setContext(itemView.getContext());
 
             mDBHelper = new DBHelper(mContext);
-            timeDBHelper = new TimeDBHelper(mContext);
+//            timeDBHelper = new TimeDBHelper(mContext);
+//
+//            int data_count = timeDBHelper.getGet_datacount();
+//            System.out.println("data_count = " + data_count);
+//            if (data_count == 0)
+//                mEat.set(0, true);
+//
+//            for (int i = 0; i < data_count; i++) {
+//                mEat.add(i,true);
+//            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,7 +79,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
 //                    Intent intent = new Intent(mContext,MainPageIntent.class);
 //
 //                    mContext.startActivity(intent);
-                    openOptionDialog(mName.get(0));
+                    openOptionDialog(mName.get(0), getAdapterPosition());
 //                    int get_med_count = mDBHelper.get_med_count(getName);
 //                    System.out.println("get_med_count = " + get_med_count);
                 }
@@ -95,6 +107,21 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
             }
         }
     };
+
+    public void count() {
+        timeDBHelper = new TimeDBHelper(mContext);
+
+        int data_count = timeDBHelper.getGet_datacount();
+        System.out.println("data_count = " + data_count);
+        if (data_count == 0)
+            mEat.set(0, true);
+
+        for (int i = 0; i < data_count; i++) {
+            mEat.add(i,true);
+        }
+
+    }
+
     @NonNull
     @Override
     public MainPage_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int ViewType) {
@@ -126,19 +153,19 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         notifyItemRemoved(position);
     }
 
-    public String[] sendPosition() {
+    public String[] sendPosition(int countTrue) {
 
         System.out.println("which first = " + 4);
 
         if (mName.isEmpty())
             getName = "testing";
         else
-            getName = mName.get(0);
+            getName = mName.get(countTrue);
 
         if (mTime.isEmpty())
             getTime = "11 : 10";
         else
-            getTime = mTime.get(0);
+            getTime = mTime.get(countTrue);
 
         String send[] = {getName, getTime};
 
@@ -151,7 +178,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     }
 
 
-    private void openOptionDialog(String message){
+    private void openOptionDialog(String message, final int position){
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
         dialog.setTitle("確定吃藥了嗎？");
         dialog.setMessage("確定已經吃了 " + message + " 這包藥嗎？");
@@ -167,6 +194,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
                     System.out.println("getname = " + name);
                     reminderDialog(name);
                 }
+                mEat.set(position, false);
                 removeItem(0);
             }
         });
@@ -199,6 +227,11 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         });
 
         dialog.show();
+    }
+
+    public int sendclick() {
+
+        return click;
     }
 
 

@@ -17,6 +17,7 @@ public class TimeDBHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "time_table";
 
     int max_time = 0;
+    int Get_datacount;
 
     public TimeDBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -61,7 +62,7 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public int get_time_id(String get_name_id) {
+    public int get_time_id(int get_name_id) {
         SQLiteDatabase db  = this.getWritableDatabase();
         String query = "SELECT id_time FROM " + TABLE_NAME + " WHERE name_id = '" + get_name_id + "'";
         Cursor data = db.rawQuery(query, null);
@@ -105,5 +106,24 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db  = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_NAME + " WHERE name_id = '" + name_id + "'";
         db.execSQL(query);
+    }
+
+    public Cursor datacount() {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT id_time FROM " + TABLE_NAME;
+        Cursor data = db.rawQuery(query, null);
+
+        Get_datacount = data.getCount();
+        System.out.println("getdatacount = " + Get_datacount);
+
+
+        return data;
+    }
+
+    public int getGet_datacount() {
+
+        datacount();
+
+        return Get_datacount;
     }
 }
