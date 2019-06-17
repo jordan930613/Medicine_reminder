@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -125,6 +126,7 @@ public class DBHelper extends SQLiteOpenHelper {
         data.moveToFirst();
 
         int count = Integer.valueOf(data.getString(0));
+        Log.v("Count6969", count+"");
         count -= 1;
 
         ContentValues values = new ContentValues();

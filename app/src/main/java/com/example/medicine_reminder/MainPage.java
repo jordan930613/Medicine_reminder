@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class MainPage extends Fragment {
     private ArrayList<String> mTime = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<Boolean> mEat = new ArrayList<>();
+    private ArrayList<Boolean> mPass = new ArrayList<>();
     Notification_reciever notification_reciever;
     String getName[];
     String sendname = "";
@@ -44,7 +46,6 @@ public class MainPage extends Fragment {
     int getclick = 0;
     DBHelper mDBHelper;
     TimeDBHelper timeDBHelper;
-    int i = 0, m = 0;
     int countTure;
 
     public MainPage() {
@@ -65,35 +66,18 @@ public class MainPage extends Fragment {
 
         mDBHelper = new DBHelper(getActivity());
         timeDBHelper = new TimeDBHelper(getActivity());
-        adapter = new MainPage_Adapter(mTime, mName, mEat);
-        adapter.count();
-        getclick = adapter.sendclick();
         SQLiteDAO sqLiteDAO = new SQLiteDAO(getActivity());
-
-
-        Cursor sort = timeDBHelper.sort();
-        sort.moveToFirst();
 
         Calendar compare_time = Calendar.getInstance();
         int hour = compare_time.get(Calendar.HOUR_OF_DAY);
         int min = compare_time.get(Calendar.MINUTE);
 
-        System.out.println("current hour =" + hour);
-        System.out.println("current min =" + min);
+        Cursor sort = timeDBHelper.sort();
+        sort.moveToFirst();
 
-        i = 0;
-        int count =timeDBHelper.getGet_datacount();
-        countTure = 0;
-
-        for (int j = 0; j < count; j++){
-            if (mEat.get(j) == false)
-                countTure++;
-        }
-
+        int position = 0;
         while (!sort.isAfterLast()) {
-            System.out.println("sort = " + sort.getString(0));
             String splited[] = sort.getString(0).split(" : ");
-            System.out.println("check = " + Integer.parseInt(splited[0]));
 
 //            if (hour < Integer.parseInt(splited[0])) {
 //                mTime.add(sort.getString(0));
@@ -117,29 +101,34 @@ public class MainPage extends Fragment {
 //
 //            }
 
-
             mTime.add(sort.getString(0));
+            mEat.add(false); //注入與Time同數量True
+            mPass.add(false);
             String getid = sort.getString(1);
             Cursor data = mDBHelper.getname(getid);
             data.moveToFirst();
             mName.add(data.getString(0));
 
-
-            if (hour < Integer.parseInt(splited[0])) {
-                setNotification(countTure);
-            } else if (hour == Integer.parseInt(splited[0])) {
-                if (min <= Integer.parseInt(splited[1])) {
-                    setNotification(countTure);
-                } else {
-                    i++;
-                }
-            } else {
-                i++;
+            if (hour > Integer.parseInt(splited[0])) {
+                mPass.set(position, true);
+//                setNotification(countTure);
+            } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1])) {
+//                setNotification(countTure);
+                mPass.set(position, true);
             }
-
-
+            position++;
             sort.moveToNext();
         }
+
+        int count =timeDBHelper.getGet_datacount();
+        countTure = 0;
+
+        for (int j = 0; j < count; j++){
+            Log.v("J = ", j+"");
+            if (mEat.get(j) == true)
+                countTure++;
+        }
+
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_mainpage);
         // 設置RecyclerView為列表型態
         recyclerView.setLayoutManager(new LinearLayoutManager(c));
@@ -147,20 +136,12 @@ public class MainPage extends Fragment {
         //recyclerView.addItemDecoration(new DividerItemDecoration(c, DividerItemDecoration.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         // 將資料交給adapter
-        adapter = new MainPage_Adapter(mTime, mName, mEat);
+        adapter = new MainPage_Adapter(mTime, mName, mEat, mPass);
         //設定notification
         //setNotification();
 
         // 設置adapter給recycler_view
         recyclerView.setAdapter(adapter);
-
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // 新增一個項目
-//                adapter.addItem("10:30", "安安藥");
-//            }
-//        });
     }
 
     public void setNotification(int countTrue) {
@@ -183,8 +164,6 @@ public class MainPage extends Fragment {
         System.out.println("hour = " + hour);
         System.out.println("min = " + min);
 
-        System.out.println("gettimeinmillis = " + calendar.getTimeInMillis());
-
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
         Intent intent = new Intent(getActivity(), Notification_reciever.class);
@@ -194,13 +173,11 @@ public class MainPage extends Fragment {
 //        intent.putExtra("channel", gettimeid);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     public String sendName() {
-        System.out.println("which first = " + 2);
-        adapter = new MainPage_Adapter(mTime, mName, mEat);
+        adapter = new MainPage_Adapter(mTime, mName, mEat, mPass);
         getName = adapter.sendPosition(countTure);
 
         sendname = getName[0];
