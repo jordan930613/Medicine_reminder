@@ -3,9 +3,13 @@ package com.example.medicine_reminder;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +26,7 @@ import android.widget.Toolbar;
 
 import java.lang.reflect.Member;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -31,29 +36,35 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     private Context mContext;
     private List<String> mTime;
     private List<String> mName;
+    private List<Boolean> mEat;
+    private List<Integer> mPass;
     private Boolean key = true;
     DBHelper mDBHelper;
     TimeDBHelper timeDBHelper;
-    String getName;
-    String getTime;
-    int click = 0;
 
     private void setContext(Context context){
         this.mContext = context;
     }
-    MainPage_Adapter(List<String> time, List<String> name){
+
+    MainPage_Adapter(){    }
+
+    MainPage_Adapter(List<String> time, List<String> name, List<Integer> pass){
         mTime = time;
         mName = name;
+        mPass = pass;
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView item_image;
         private TextView item_tvTime, item_tvName;
+        private View titleColor;
 
         ViewHolder(final View itemView) {
             super(itemView);
 //            item_image = (ImageView) itemView.findViewById(R.id.mainpage_content_img);
+            titleColor = itemView.findViewById(R.id.viewtitle);
             item_tvTime = (TextView) itemView.findViewById(R.id.mainpage_tv_time);
             item_tvName = (TextView) itemView.findViewById(R.id.mainpage_tv_name);
             setContext(itemView.getContext());
@@ -64,39 +75,13 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(),"Click"+getAdapterPosition(),Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(mContext,MainPageIntent.class);
-//
-//                    mContext.startActivity(intent);
-                    click = 0;
-                    openOptionDialog(mName.get(0));
-//                    int get_med_count = mDBHelper.get_med_count(getName);
-//                    System.out.println("get_med_count = " + get_med_count);
+                    openOptionDialog(mName.get(getAdapterPosition()), getAdapterPosition());
                 }
             });
 
-//            item_btnDel.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(getAdapterPosition()==-1)
-//                        return;
-//                    // 移除項目，getAdapterPosition為點擊的項目位置
-//                    removeItem(getAdapterPosition());
-//                }
-//            });
         }
     }
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(50);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    };
+
     @NonNull
     @Override
     public MainPage_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int ViewType) {
@@ -110,6 +95,44 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         // 設置txtItem要顯示的內容
         holder.item_tvTime.setText(mTime.get(position));
         holder.item_tvName.setText(mName.get(position));
+
+//        Calendar compare_time = Calendar.getInstance();
+//        int hour = compare_time.get(Calendar.HOUR_OF_DAY);
+//        int min = compare_time.get(Calendar.MINUTE);
+//
+//        Cursor sort = timeDBHelper.sort();
+//        sort.moveToFirst();
+//
+//        while (!sort.isAfterLast()) {
+//            String splited[] = sort.getString(0).split(" : ");
+//            String getid = sort.getString(1);
+//            String gettime = sort.getString(0);
+//
+//            if (hour > Integer.parseInt(splited[0])) {
+//                int getNameId = Integer.parseInt(getid);
+//                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
+//                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+//                ContentValues values_time = new ContentValues();
+//                values_time.put("dead", 1);
+//                System.out.println("dead dead");
+//                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+//
+//            } else if (hour == Integer.parseInt(splited[0]) && min >= Integer.parseInt(splited[1])) {
+//                int getNameId = Integer.parseInt(getid);
+//                int getTimeId = timeDBHelper.get_time_id(getNameId, gettime);
+//                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+//                ContentValues values_time = new ContentValues();
+//                values_time.put("dead", 1);
+//                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+//            }
+//            sort.moveToNext();
+//        }
+
+        if(mPass.get(position) == 1){
+            holder.titleColor.setBackgroundColor(Color.parseColor("#cc0000"));
+            holder.item_tvTime.setTextColor(Color.parseColor("#cc0000"));
+        }
+
     }
     // 新增項目
     public void addItem(String time, String name) {
@@ -124,23 +147,31 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         Log.i("Remove ", "removeItem at "+ position);
         mTime.remove(position);
         mName.remove(position);
+        //mPass.remove(position);
 
         notifyItemRemoved(position);
     }
 
-    public String[] sendPosition() {
+    public String[] sendPosition(int count_Eat) {
+
+        String getName;
+        String getTime;
 
         System.out.println("which first = " + 4);
 
         if (mName.isEmpty())
             getName = "testing";
+        else if (mName.size() > count_Eat)
+            getName = mName.get(count_Eat);
         else
-            getName = mName.get(0);
+            getName = "testing";
 
         if (mTime.isEmpty())
             getTime = "11 : 10";
+        else if (mTime.size() > count_Eat)
+            getTime = mTime.get(count_Eat);
         else
-            getTime = mTime.get(0);
+            getTime = "11 : 10";
 
         String send[] = {getName, getTime};
 
@@ -153,7 +184,7 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
     }
 
 
-    private void openOptionDialog(String message){
+    private void openOptionDialog(String message, final int position){
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
         dialog.setTitle("確定吃藥了嗎？");
         dialog.setMessage("確定已經吃了 " + message + " 這包藥嗎？");
@@ -161,16 +192,26 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
         dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = mName.get(0);
+                String name = mName.get(position);
+                String time = mTime.get(position);
                 mDBHelper.decreaseCount(mDBHelper.get_name_id(name));
                 int get_med_count = mDBHelper.get_med_count(name);
-                System.out.println("get_med_count = " + get_med_count);
+
                 if (get_med_count == 0) {
-                    System.out.println("getname = " + name);
                     reminderDialog(name);
                 }
-                click = 1;
-                removeItem(0);
+
+                int getNameId = mDBHelper.get_name_id(name);
+                int getTimeId = timeDBHelper.get_time_id(getNameId, time);
+
+                SQLiteDatabase db_time = timeDBHelper.getWritableDatabase();
+                ContentValues values_time = new ContentValues();
+                values_time.put("eat", 1);
+                db_time.update("time_table", values_time, "id_time = '" + getTimeId + "'", null);
+
+                //mEat.set(position, true);
+                //mPass.remove(position);
+                removeItem(position);
             }
         });
 
@@ -203,11 +244,5 @@ public class MainPage_Adapter extends RecyclerView.Adapter<MainPage_Adapter.View
 
         dialog.show();
     }
-
-    public int sendclick() {
-
-        return click;
-    }
-
 
 }

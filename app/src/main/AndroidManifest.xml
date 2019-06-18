@@ -18,8 +18,7 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".modify_med" />
         <activity
-            android:name=".MedBag"
-            android:parentActivityName=".MainActivity" />
+            android:name=".MedBag" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

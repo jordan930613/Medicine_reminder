@@ -64,7 +64,6 @@ public class modify_med extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            Toast.makeText(getApplicationContext(),"yeeeee",Toast.LENGTH_SHORT).show();
             medcount = edt_cout.getText().toString();
             name_id = mDBHelper.get_name_id(edt_name.getText().toString());
             System.out.println("medcount = " +  medcount);
@@ -162,6 +161,8 @@ public class modify_med extends AppCompatActivity {
             //time_id = timeDBHelper.get_time_id(Integer.toString(name_id));
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
+            values_time.put("eat", 0);
+            values_time.put("dead", 0);
             //db.update("time_table", values_time, "id_time = '" + time_id + "'", null);
             db_time.insert("time_table", null, values_time);
             values.put("med_count", med_count);
@@ -175,6 +176,8 @@ public class modify_med extends AppCompatActivity {
             name_id = mDBHelper.get_name_id(edt_name.getText().toString());
             values_time.put("name_id", name_id);
             values_time.put("datetime", datetime);
+            values_time.put("eat", 0);
+            values_time.put("dead", 0);
             db_time.insert("time_table", null, values_time);
         }
 

@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
     int Got_it = 0;
+    int Get_datacount = 0;
 
     private static final String DATABASE_NAME = "mydata.db";
 
@@ -16,7 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // 建構子，在一般的應用都不需要修改
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
     }
 
     @Override
@@ -69,12 +71,34 @@ public class DBHelper extends SQLiteOpenHelper {
             Got_it = 1;
         }
 
+
         return data;
     }
+
+    public Cursor datacount() {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT name FROM " + TABLE_NAME;
+        Cursor data = db.rawQuery(query, null);
+
+        Get_datacount = data.getCount();
+        System.out.println("getdatacount = " + Get_datacount);
+
+
+        return data;
+    }
+
+
 
     public int getGot_it() {
 
         return Got_it;
+    }
+
+    public int getGet_datacount() {
+
+        datacount();
+
+        return Get_datacount;
     }
 
     public int get_name_id(String get_name) {
@@ -102,6 +126,7 @@ public class DBHelper extends SQLiteOpenHelper {
         data.moveToFirst();
 
         int count = Integer.valueOf(data.getString(0));
+        Log.v("Count6969", count+"");
         count -= 1;
 
         ContentValues values = new ContentValues();
@@ -139,4 +164,5 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "DELETE FROM " + TABLE_NAME + " WHERE name_id = '" + name_id + "'";
         db.execSQL(query);
     }
+
 }

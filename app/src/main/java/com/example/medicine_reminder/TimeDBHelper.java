@@ -17,9 +17,10 @@ public class TimeDBHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "time_table";
 
     int max_time = 0;
+    int Get_datacount;
 
     public TimeDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
     }
 
     @Override
@@ -28,7 +29,9 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
                 "(id_time INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name_id VARCHAR(32), " +
-                "datetime VARCHAR(32))";
+                "datetime VARCHAR(32), " +
+                "eat INTEGER NOT NULL, " +
+                "dead INTEGER NOT NULL)";
 
         db.execSQL(CREATE_TABLE);
 
@@ -58,9 +61,9 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public int get_time_id(int get_name_id) {
+    public int get_time_id(int get_name_id, String get_time) {
         SQLiteDatabase db  = this.getWritableDatabase();
-        String query = "SELECT id_time FROM " + TABLE_NAME + " WHERE name_id = '" + get_name_id + "'";
+        String query = "SELECT id_time FROM " + TABLE_NAME + " WHERE name_id = '" + get_name_id + "'" + " AND datetime = '" + get_time + "'";
         Cursor data = db.rawQuery(query, null);
         data.moveToFirst();
 
@@ -74,8 +77,26 @@ public class TimeDBHelper extends SQLiteOpenHelper {
 
     public Cursor sort() {
         SQLiteDatabase db  = this.getWritableDatabase();
-        String query = "SELECT datetime,name_id FROM " + TABLE_NAME + " ORDER BY datetime ASC ";
+        String query = "SELECT datetime,name_id,dead FROM " + TABLE_NAME + " ORDER BY datetime ASC ";
         Cursor data = db.rawQuery(query, null);
+
+        return data;
+    }
+
+    public Cursor checkEat(int nameId, String time) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT eat FROM " + TABLE_NAME + " WHERE datetime = '" + time + "'"+ " AND name_id = '" + nameId + "'";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+
+        return data;
+    }
+
+    public Cursor checkDead(int nameId, String time) {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT dead FROM " + TABLE_NAME + " WHERE datetime = '" + time + "'"+ " AND name_id = '" + nameId + "'";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
 
         return data;
     }
@@ -92,7 +113,9 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
                 "(id_time INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name_id VARCHAR(32), " +
-                "datetime VARCHAR(32))";
+                "datetime VARCHAR(32), " +
+                "eat INTEGER NOT NULL, " +
+                "dead INTEGER NOT NULL)";
 
         db.execSQL(CREATE_TABLE);
         super.onOpen(db);
@@ -102,5 +125,23 @@ public class TimeDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db  = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_NAME + " WHERE name_id = '" + name_id + "'";
         db.execSQL(query);
+    }
+
+    public Cursor datacount() {
+        SQLiteDatabase db  = this.getWritableDatabase();
+        String query = "SELECT id_time FROM " + TABLE_NAME;
+        Cursor data = db.rawQuery(query, null);
+
+        Get_datacount = data.getCount();
+
+        return data;
+    }
+
+    public int get_datacount() {
+
+        datacount();
+        System.out.println("getdatacount = " + Get_datacount);
+
+        return Get_datacount;
     }
 }
